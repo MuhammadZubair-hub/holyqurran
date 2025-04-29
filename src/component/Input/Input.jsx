@@ -34,7 +34,7 @@ const Input =(
             />
             {(righticon)?(
                 <Ionicons 
-                name = {securetext?'eye-outline':'eye-close-outline'}
+                name = {(securetext)? 'eye-outline':'eye-close-outline'}
                 onPress ={setSecuretext(!securetext)}
                 size={vs(20)} 
                 style={styles.iconStyle} />
