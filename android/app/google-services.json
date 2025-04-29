@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "21544338566",
+    "project_id": "rnfirebase-c1dd9",
+    "storage_bucket": "rnfirebase-c1dd9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21544338566:android:1bf2e4fa6bc5049c18bd07",
+        "android_client_info": {
+          "package_name": "com.hloyquran"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjw9hp1e5AnkHwTbwmMzeXbyRGFGL13M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
