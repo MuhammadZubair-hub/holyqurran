@@ -7,15 +7,20 @@ import { useState } from "react"
 const Input =(
     {
     
-    Value,
+    value,
     placeholder,
     onChange,
     iconname,
     righticon=false,
+    onBlur
     
     })=>{
 
-        const [securetext,setSecuretext] = useState(false);
+        const [securetext,setSecuretext] = useState(true);
+
+        const toggle =()=>{
+            setSecuretext(prevState=> !prevState)
+        }
 
     return (
         <View style={styles.mainconatiner}>
@@ -25,17 +30,18 @@ const Input =(
             style={styles.iconStyle}
              />
             <TextInput
-            value={Value}
+            value={value}
             placeholder={placeholder}
             placeholderTextColor={Colors.primary}
             onChangeText={onChange}
-            secureTextEntry={securetext}
+            secureTextEntry={securetext && righticon}
+            onBlur={onBlur}
             style={styles.inputfield}
             />
             {(righticon)?(
                 <Ionicons 
-                name = {(securetext)? 'eye-outline':'eye-close-outline'}
-                onPress ={setSecuretext(!securetext)}
+                name = {(securetext)? 'eye-off-outline':'eye-outline'}
+                onPress ={toggle}
                 size={vs(20)} 
                 style={styles.iconStyle} />
             ):(null)

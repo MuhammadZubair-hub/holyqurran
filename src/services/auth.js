@@ -21,7 +21,7 @@ export const  registerUser = async (email,password) =>{
                     break;
                 
             case 'auth/weak-password':
-                        errormeassage = "password is ver weak "
+                        errormeassage = "password is very week "
                         break;
         
             default:
@@ -44,24 +44,46 @@ export const loginUser = async (email,password) =>{
         return { user , emailVerfied : user.emailVerified};
         
     } catch (error) {
-        let errormeassage
+        console.log('Firebase Login Error:', error); // 👈 Add this line
+    
+        let errorMessage;
         switch (error.code) {
-            case 'auth/wrong-password':
-                errormeassage= 'your password is not correct'
-                
+            case 'auth/invalid-credential':
+                errorMessage = 'Your credential is not correct';
                 break;
             case 'auth/user-not-found':
-                    errormeassage = 'your account is not verfied'
-                    
+                errorMessage = 'Your account is not verified';
+                break;
+            default:
+                errorMessage = 'An unknown error occurred';
+                break;
+        }
+    
+        throw new Error(errorMessage);
+    }
+
+}
+
+export const resetpassword = async (email)=>{
+
+    try {
+        
+        await auth().sendPasswordResetEmail(email);
+
+    } catch (error) {
+        let errorMessage;
+        switch (error.code) {
+            case 'auth/user-not-found':
+                errorMessage = 'Your account is not verified';
+                break;
+            case 'auth/invalid-email':
+                errorMessage = "this is not a valid email"
                     break;
         
             default:
-                errormeassage = "an unknwon error"
+                errorMessage = 'An unknown error occurred';
                 break;
         }
-
-        throw new Error(errormeassage)
         
     }
-
 }

@@ -5,105 +5,113 @@ import { useState } from "react"
 import { scale, vs } from "../utils/theme/responsive"
 import Buton from "../component/Button/Buton"
 import { loginUser } from "../services/auth"
+import { Formik } from "formik"
+import { showMessage } from "react-native-flash-message"
+import Basescreen from "../component/Basescreen"
+import { Commonstyle } from "../utils/shared/Style/globalstyle"
+import { useNavigation } from "@react-navigation/native"
 
 const Login = ()=>{
 
-    const [email,setEmail]= useState('');
-    const [password,setPassword]= useState('');
-
-    const handleLogin = async ()=>{
-            if(!password || !email){
-                Alert.alert('ops','enter detials');
-                return
-            }
-            try {
-                const {emailVerfied} = await loginUser(email,password);
-                if(emailVerfied){
-                    Alert.alert('Success','you have login in brother')
-                    return
-                }
-                else {
-                    Alert.alert('learn','you are unauthorized person brother')
-                    return
-                }
-                
-            } catch (error) {
-                Alert.alert('bhai ya eror ha ',error.message);
-                
-            }
+  const navigation = useNavigation();
+    const handleLogin = async (values) => {
+        const { email, password } = values;
+      
+        if (!email || !password) {
+          showMessage({
+            message: 'Missing Fields',
+            description: 'Please enter both email and password',
+            type: 'danger',
+            style: Commonstyle.error,
+          });
+          return;
         }
+      
+        try {
+          const { emailVerfied } = await loginUser(email, password);
+      
+          if (emailVerfied) {
+            showMessage({
+              message: 'Login Successful',
+              description: `Welcome back, ${email}!`,
+              type: 'success',
+            });
+          } else {
+            showMessage({
+              message: 'Unauthorized',
+              description: 'You are not authorized to login.',
+              type: 'danger',
+              style: Commonstyle.error,
+            });
+          }
+        } catch (error) {
+          showMessage({
+            message: 'Login Error',
+            description: error.message ,
+            type: 'danger',
+            style: Commonstyle.error,
+          });
+        }
+      };
 
     return(
-        <View style={styles.maincontainer}>
-            <View style={styles.logoContainer}>
+        <Basescreen scroable={true}>
+          <View style={Commonstyle.maincontainer}>
+            <View style={Commonstyle.logoContainer}>
                 <Image 
                 source={require('../assets/images/mainlogo.png')} 
-                style={styles.logoImage}
+                style={Commonstyle.logoImage}
                 resizeMode="contain"
                 />
             </View>
             
-            <View style={styles.secondmidcontainer}>
-                <Text style={{color:Colors.primary ,fontSize:scale(0),fontFamily:'bold', fontWeight:'600', textAlign:'center' }}>
-                     Login
-                </Text>
-                <View style={{rowGap:vs(40)}}>
-                    <Input 
-                    Value={email} 
-                    placeholder='Enter email' 
-                    onChange={setEmail} 
-                    iconname={'mail-outline'} ></Input>
-                    <Input 
-                    Value={password} 
-                    placeholder='Enter password' 
-                    onChange={setPassword} 
-                    iconname={'lock-closed-outline'} righticon={true} ></Input>
-                </View>
-                <Buton 
-                    buttontitle='Login'
-                    paddingvertical={vs(15)} 
-                    onpress={handleLogin} >
+            
+                <Formik
+                  initialValues={{email :'' , password : ''}}
+                  onSubmit={handleLogin}>
+                  {({
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      values,
+                      
+                  })=>(
+                    <View style={Commonstyle.secondmidcontainer}>
+                        <Text style={{ color: Colors.primary, fontSize: scale(40), fontFamily: 'bold', fontWeight: '600', textAlign: 'center' }}>
+                            Login
+                        </Text>
+                        <View style={{ rowGap: vs(40) }}>
+                            <Input
+                                value={values.email}
+                                placeholder='Enter email'
+                                onChange={handleChange('email')}
+                                onBlur={handleBlur('email')}
+                                iconname={'mail-outline'}></Input>
+                            <Input
+                                value={values.password}
+                                placeholder='Enter password'
+                                onChange={handleChange('password')}
+                                onBlur={handleBlur('password')}
+                                iconname={'lock-closed-outline'} righticon={true}></Input>
+                            <View style={{flexDirection:'row', justifyContent:"flex-end" }}>
+                                <Text style={{color:Colors.secondary}}>Don't have account ? </Text>
+                                <Text style={{color:Colors.primary}} onPress={()=>navigation.navigate('Signup')} >Sign Up</Text>
+                            </View>
+                            <Text style={{color:Colors.primary , textAlign:'right'}} onPress={()=>navigation.navigate('Forgetpassword')} >Forget password</Text>
+                             <Buton
+                                buttontitle='Login'
+                                paddingvertical={vs(15)}
+                                onpress={handleSubmit}>
 
-                </Buton>
-            </View>
-        </View>
+                            </Buton>
+                        </View>
+                        </View>
+                    )}
+                </Formik>
+                
+           </View>
+        </Basescreen>
     )
 }
 
 export default Login
-
-export const styles = StyleSheet.create({
-    maincontainer:{
-       flex:1,
-        justifyContent:'flex-end',
-        backgroundColor:Colors.primary,
-
-    },
-    firstmidconatianer:{
-    
-        backgroundColor:Colors.primary,
-        height:'25%',
-        width:'100%',
-    },
-    secondmidcontainer:{
-        justifyContent:'space-between',
-        padding:30,
-        backgroundColor:Colors.whiteaccent,
-        rowGap:20,
-        borderTopRightRadius:40,
-        borderTopLeftRadius:40,
-        height:"70%",
-      
-    },
-    logoContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor:Colors.primary,
-      },
-      
-      logoImage: {
-        width: '100%',
-        height: '100%',
-      },
-})
