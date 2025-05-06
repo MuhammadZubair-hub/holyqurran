@@ -36,8 +36,9 @@ const Signup = ()=>{
 
             showMessage({
                 message:'Success',
-                description:'Verfication emial has been sent to you email',
-                type :'success'
+                description:'Verfication email has been sent to your email',
+                type :'success',
+                style:Commonstyle.sucsses
             })   
         } catch (error) {
             showMessage({
@@ -101,7 +102,7 @@ const Signup = ()=>{
 
                              <Buton
                                 buttontitle='Sign up'
-                                paddingvertical={vs(15)}
+                                paddingvertical={vs(10)}
                                 onpress={handleSubmit}>
 
                             </Buton>

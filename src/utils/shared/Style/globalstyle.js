@@ -53,5 +53,23 @@ export const Commonstyle = StyleSheet.create({
             // fontSize: 13,
             // marginBottom: 5,
           },
+          sucsses : {
+            backgroundColor:'lightgren',
+            height: 60,
+            width: '90%',
+            alignSelf: 'center',
+            marginTop: 10,
+            borderRadius: 10,
+            paddingHorizontal: 15,
+            justifyContent: 'center',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            // color: 'red',
+            // fontSize: 13,
+            // marginBottom: 5,
+          },
 
 })

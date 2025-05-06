@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth'
 import { showMessage } from "react-native-flash-message"
 import { Commonstyle } from "../../utils/shared/Style/globalstyle"
 
-const MyHeader =()=>{
+const MyHeader =({username})=>{
 
     const handleLogout = async ()=>{
         try {
@@ -35,7 +35,7 @@ const MyHeader =()=>{
                 name="person-circle-outline"
                 size={vs(40)} 
                 color={Colors.secondary} />
-                <Text>username :</Text>
+                <Text>username :{username}</Text>
             </View>
             <View style ={styles.headercontainer}>
                 <Ionicons 

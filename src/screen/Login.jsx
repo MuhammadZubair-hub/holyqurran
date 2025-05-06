@@ -10,11 +10,15 @@ import { showMessage } from "react-native-flash-message"
 import Basescreen from "../component/Basescreen"
 import { Commonstyle } from "../utils/shared/Style/globalstyle"
 import { useNavigation } from "@react-navigation/native"
+import { useSelector } from "react-redux"
+import { getUser } from "../utils/shared/redux/Userslice"
 
 const Login = ()=>{
 
-  const navigation = useNavigation();
+    const navigation = useNavigation();
     const handleLogin = async (values) => {
+
+
         const { email, password } = values;
       
         if (!email || !password) {
@@ -35,6 +39,7 @@ const Login = ()=>{
               message: 'Login Successful',
               description: `Welcome back, ${email}!`,
               type: 'success',
+              style:Commonstyle.sucsses,
             });
           } else {
             showMessage({
@@ -100,7 +105,7 @@ const Login = ()=>{
                             <Text style={{color:Colors.primary , textAlign:'right'}} onPress={()=>navigation.navigate('Forgetpassword')} >Forget password</Text>
                              <Buton
                                 buttontitle='Login'
-                                paddingvertical={vs(15)}
+                                paddingvertical={vs(10)}
                                 onpress={handleSubmit}>
 
                             </Buton>
