@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { mvs, vs, width } from "../utils/theme/responsive"
 import Homescreencard from "../component/card/Homescreencard"
 import { HomeWidgets } from "../utils/constant/Staticdata"
+import { useNavigation } from "@react-navigation/native"
 
 
 
@@ -23,33 +24,38 @@ const Home = ()=>{
 
  
 
-    const [index,setIndex] = useState(0)
+    // const [index,setIndex] = useState(0)
+    const navigation = useNavigation();
 
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        const interval = setInterval(()=>{
-            setIndex(prev =>(prev +1 )% images.length)
-        },3000)
+    //     const interval = setInterval(()=>{
+    //         setIndex(prev =>(prev +1 )% images.length)
+    //     },3000)
 
-        return ()=> clearInterval(interval);
+    //     return ()=> clearInterval(interval);
 
-    },[]) 
+    // },[]) 
 
     
 
     return(
         
         <Basescreen scroable={false} containerstyle={{backgroundColor:Colors.whiteaccent}}>
-            <MyHeader username={' this is me '} ></MyHeader>
+            <MyHeader username={' user 1 '} ></MyHeader>
             
-                <View style={styles.container}>
+                {/* <View style={styles.container}>
                     <Image style={styles.image} source={images[index]} resizeMode="cover" ></Image>
-                </View>
+                </View> */}
                 
                 <View style={styles.cards}>
                 {HomeWidgets.map((item,index)=>{
                     return (
-                        <Homescreencard  title={item.name} key={index} ></Homescreencard>
+                        <Homescreencard  
+                        title={item.name} 
+                        onPress={()=>navigation.navigate('QuranDetial')}
+                        key={index} 
+                        ></Homescreencard>
                     )
                 })}
                 </View>

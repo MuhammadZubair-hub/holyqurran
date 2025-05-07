@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     },
     buttontext:{
         textAlign:'center',
-        color:Colors.secondary,
+        color:Colors.golden,
         fontSize:scale(20),
     }
 })

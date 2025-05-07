@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { store } from "../utils/shared/redux/store";
 import { setUserData } from "../utils/shared/redux/Userslice";
 import { SetUData } from "../utils/constant/asyncstorage";
+import QuranDetial from "../screen/Qurandetial";
 
 const Mainstack = ()=>{
 
@@ -41,7 +42,11 @@ const Mainstack = ()=>{
     return (
         <Stack.Navigator screenOptions={{headerShown:false}}>
           {user? (
+            <>
             <Stack.Screen name ='Home' component={Home} />
+            <Stack.Screen name ='QuranDetial' component={QuranDetial} />
+            </>
+            
           ):(
             <>
             <Stack.Screen name='Signup' component={Signup} />

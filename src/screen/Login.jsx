@@ -64,7 +64,7 @@ const Login = ()=>{
           <View style={Commonstyle.maincontainer}>
             <View style={Commonstyle.logoContainer}>
                 <Image 
-                source={require('../assets/images/mainlogo.png')} 
+                source={require('../assets/images/quranpic.png')} 
                 style={Commonstyle.logoImage}
                 resizeMode="contain"
                 />

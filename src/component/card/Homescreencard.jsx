@@ -5,18 +5,19 @@ import { Api_Services } from "../../services/Api_Services";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"
 
 
- const Homescreencard = ({title}) => {
 
-    const qurandetials = async ()=>{
-        const detials = await Api_Services.qurandetials();
-        console.log('detials are :', detials?.data );
-    }
+ const Homescreencard = ({title,onPress}) => {
+
+   
+    // const qurandetials = async ()=>{
+    //     const detials = await Api_Services.qurandetials();
+    //     console.log('detials are :', detials?.data );
+    // }
 
     return (
         <TouchableOpacity 
-        style = {styles.maincardcontainer}
-        onPress={qurandetials}
-        >
+            style = {styles.maincardcontainer}
+            onPress={onPress}>
             <FontAwesome6 name = 'book-quran' size ={mvs(30)} />   
             <Text>{title}</Text>
         </TouchableOpacity>

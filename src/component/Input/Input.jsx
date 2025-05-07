@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
     },
     inputfield:{
         flex:1,
-        color:Colors.primary,
+        color:Colors.golden,
         marginVertical:vs(10),
     },
     iconStyle:{
-        color:Colors.primary,
+        color:Colors.golden,
         marginHorizontal:vs(10)
     },
 })
