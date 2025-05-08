@@ -66,7 +66,7 @@ const Signup = ()=>{
                             Sign Up
                         </Text>
                 <Formik
-                  initialValues={{email :'mail@.com' , password : 'abcde' ,confirmpassword:'abcde'}}
+                  initialValues={{email :'' , password : '' ,confirmpassword:''}}
                   onSubmit={handleRegister}>
                   {({
                       handleChange,

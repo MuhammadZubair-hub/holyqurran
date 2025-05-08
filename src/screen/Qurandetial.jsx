@@ -6,12 +6,15 @@ import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity,
 import { useEffect, useState } from "react";
 import { mvs, vs } from "../utils/theme/responsive";
 import { Colors } from "../utils/theme/colors";
+import { useNavigation } from "@react-navigation/native";
+import Backbutton from "../component/Button/Backbutton";
 //import { detialsData } from "../utils/constant/Staticdata";
 
 const QuranDetial = () => {
   const dispatch = useDispatch();
   const getredux = useSelector(getqurandetialdata);
   const [loading,setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     
@@ -62,7 +65,8 @@ const QuranDetial = () => {
 
   const renderFunction =({item})=>{
     return (
-        <TouchableOpacity style={styles.flatlistcard} onPress={()=> console.log('this is refrences ', item?.data?.references)}  >
+        <TouchableOpacity style={styles.flatlistcard} 
+         onPress={()=> navigation.navigate('Refrencesscr',{ref : item.name})}  >
             <Text style={[styles.firsttext]}> {item.name}</Text>
             <Text style={styles.secondtext}> {item?.data?.count}</Text>
         </TouchableOpacity>
@@ -81,7 +85,9 @@ const QuranDetial = () => {
   return (
     <Basescreen scroable={true} containerstyle={{backgroundColor:Colors.whiteaccent}}>
 
-        <View style={{ flex:1,justifyContent:'space-evenly', alignItems: 'center', paddingTop: vs(20)}}>
+        <View style={{ flex:1,justifyContent:'space-evenly', alignItems: 'center', paddingTop: vs(10)}}>
+
+                <Backbutton/>
             
                 <Image 
                 source={require('../assets/images/quranpic.png')} 

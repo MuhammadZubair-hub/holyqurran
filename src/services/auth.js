@@ -44,7 +44,7 @@ export const loginUser = async (email,password) =>{
         return { user , emailVerfied : user.emailVerified};
         
     } catch (error) {
-        console.log('Firebase Login Error:', error); // 👈 Add this line
+        console.log('Firebase Login Error:', error); 
     
         let errorMessage;
         switch (error.code) {

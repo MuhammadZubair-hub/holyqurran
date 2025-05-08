@@ -11,6 +11,9 @@ import { store } from "../utils/shared/redux/store";
 import { setUserData } from "../utils/shared/redux/Userslice";
 import { SetUData } from "../utils/constant/asyncstorage";
 import QuranDetial from "../screen/Qurandetial";
+import ReferencesScreen from "../screen/Refrencesscreen";
+import ReciteQuran from "../screen/ReciteQuran";
+import ReciteQuranBy from "../screen/ReciteQuranBy";
 
 const Mainstack = ()=>{
 
@@ -19,15 +22,13 @@ const Mainstack = ()=>{
     const [user,setUser] = useState(null);
     const [intilaizer,setIntilaizer] = useState(true);
 
-    const dispatch = useDispatch();
+    
 
   useEffect(()=>{
 
     const unsusrcibe = auth().onAuthStateChanged(user =>{
       
       setUser(user);
-       //dispatch(setUserData(user))
-       //SetUData('userdata',user);
       if(intilaizer) setIntilaizer(false);
     })
 
@@ -45,6 +46,9 @@ const Mainstack = ()=>{
             <>
             <Stack.Screen name ='Home' component={Home} />
             <Stack.Screen name ='QuranDetial' component={QuranDetial} />
+            <Stack.Screen name ='Refrencesscr' component={ReferencesScreen} />
+            <Stack.Screen name='ReciteQuran' component={ReciteQuran}/>
+            <Stack.Screen name='ReciteQuranBy' component={ReciteQuranBy}/>
             </>
             
           ):(

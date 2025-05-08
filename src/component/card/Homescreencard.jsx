@@ -18,8 +18,8 @@ import FontAwesome6 from "react-native-vector-icons/FontAwesome6"
         <TouchableOpacity 
             style = {styles.maincardcontainer}
             onPress={onPress}>
-            <FontAwesome6 name = 'book-quran' size ={mvs(30)} />   
-            <Text>{title}</Text>
+            <FontAwesome6 name = 'book-quran' size ={mvs(30)} color ={Colors.primary} />   
+            <Text style={{fontSize:mvs(15), color :Colors.primary}} >{title}</Text>
         </TouchableOpacity>
     )
 
@@ -29,7 +29,7 @@ export default Homescreencard
 const styles = StyleSheet.create({
     maincardcontainer:{
         marginVertical:vs(10),
-        width:'47%',
+        width:'100%',
         justifyContent:'center',
         alignItems:'center',
         borderRadius:vs(10),

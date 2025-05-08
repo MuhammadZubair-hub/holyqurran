@@ -1,8 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native"
-import Buton from "../component/Button/Buton"
-import auth from '@react-native-firebase/auth'
-import { showMessage } from "react-native-flash-message"
-import { Commonstyle } from "../utils/shared/Style/globalstyle"
+
 import Basescreen from "../component/Basescreen"
 import MyHeader from "../component/Header"
 import { Colors } from "../utils/theme/colors"
@@ -24,7 +21,7 @@ const Home = ()=>{
 
  
 
-    // const [index,setIndex] = useState(0)
+    const [index,setIndex] = useState(0)
     const navigation = useNavigation();
 
     // useEffect(()=>{
@@ -42,52 +39,53 @@ const Home = ()=>{
     return(
         
         <Basescreen scroable={false} containerstyle={{backgroundColor:Colors.whiteaccent}}>
-            <MyHeader username={' user 1 '} ></MyHeader>
-            
-                {/* <View style={styles.container}>
-                    <Image style={styles.image} source={images[index]} resizeMode="cover" ></Image>
-                </View> */}
-                
-                <View style={styles.cards}>
-                {HomeWidgets.map((item,index)=>{
-                    return (
-                        <Homescreencard  
-                        title={item.name} 
-                        onPress={()=>navigation.navigate('QuranDetial')}
-                        key={index} 
-                        ></Homescreencard>
-                    )
-                })}
-                </View>
-            
-        </Basescreen>
+  <MyHeader username={'user 1'} />
+
+  <View style={styles.mainRow}>
+    {/* Right Side: Background Image */}
+    <Image 
+      blurRadius={0}
+      source={require('../assets/images/grill4.png')} 
+      style={styles.sideImage}
+    />
+
+    {/* Left Side: Cards on top of image */}
+    <View style={styles.cardsContainer}>
+      {HomeWidgets.map((item, index) => (
+        <Homescreencard  
+          title={item.name} 
+          onPress={() => navigation.navigate(item.screenname)}
+          key={index}
+        />
+      ))}
+    </View>
+  </View>
+</Basescreen>
     )
 }
 
 export default Home
 
 const styles = StyleSheet.create({
-    container: {
-        width:width,
-        height: 200,
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        
+    mainRow: {
+        flex: 1,
+        flexDirection: 'row',
+        width: '100%',
+        position: 'relative', 
       },
-      image: {
-        width: width,
-        height: 180,
-        borderRadius: 10,
-        borderColor:Colors.primary,
-        borderWidth:2,
-        
+      sideImage: {
+        position: 'absolute',
+        right: 0,
+        width: '75%',
+        height: '100%',
+        resizeMode: 'cover',
+        zIndex: 0, 
       },
-      cards :{
-        paddingHorizontal:mvs(10),
-        flexWrap:'wrap',
-        flexDirection:'row',
-        justifyContent:'space-between',
-        columnGap:vs(10),
-      }
+      cardsContainer: {
+        width: '75%',
+        padding: mvs(10),
+        flexDirection: 'coulmn',
+        flexWrap: 'wrap',
+        zIndex: 1, 
+      },
 })

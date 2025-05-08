@@ -49,12 +49,9 @@ export const Commonstyle = StyleSheet.create({
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
             elevation: 5,
-            // color: 'red',
-            // fontSize: 13,
-            // marginBottom: 5,
           },
           sucsses : {
-            backgroundColor:'lightgren',
+            backgroundColor:'lightgreen',
             height: 60,
             width: '90%',
             alignSelf: 'center',
@@ -67,9 +64,6 @@ export const Commonstyle = StyleSheet.create({
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
             elevation: 5,
-            // color: 'red',
-            // fontSize: 13,
-            // marginBottom: 5,
           },
 
 })

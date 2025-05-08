@@ -10,7 +10,14 @@ export const Api_Services = {
             endpoint:url, 
             data : data
             })
-     } 
+     },
+     getAlljuz : async ({ juznumber})=>{
+          const url =`${Api_config.getQuranJuz}${juznumber}`
+          return apicall({
+               endpoint:url,
+               //data: data,
+          })
+     }
 
 
 

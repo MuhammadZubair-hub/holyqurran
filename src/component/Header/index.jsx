@@ -31,10 +31,9 @@ const MyHeader =({username})=>{
         <View style ={styles.headermaincontianer}>
             <View style ={styles.headercontainer}>
                 <Ionicons 
-                
                 name="person-circle-outline"
                 size={vs(40)} 
-                color={Colors.secondary} />
+                color={Colors.golden} />
                 <Text>username :{username}</Text>
             </View>
             <View style ={styles.headercontainer}>
@@ -42,7 +41,7 @@ const MyHeader =({username})=>{
                 onPress={handleLogout}
                 name="log-out-outline"
                 size={vs(40)} 
-                color={Colors.secondary} />
+                color={Colors.golden} />
             </View>
         </View>
     )
