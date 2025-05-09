@@ -6,20 +6,23 @@ import { NavigationContainer } from "@react-navigation/native"
 import { Provider} from "react-redux"
 import {store} from "./src/utils/shared/redux/store"
 import Mainstack from "./src/navigation/Mainstack"
+import { NetworkProvider } from "./src/services/Networkporvider"
 
 const App =()=>{
 
   return(
     <Provider store = {store}>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <StatusBar backgroundColor={Colors.primary} barStyle={'light-content'} translucent={false} />
+      <NetworkProvider>
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <StatusBar backgroundColor={Colors.primary} barStyle={'light-content'} translucent={false} />
 
-        <NavigationContainer>
-          <Mainstack/>
-        </NavigationContainer>
-        
-        <FlashMessage position={'right'} floating={true} />
-      </SafeAreaProvider>
+          <NavigationContainer>
+            <Mainstack/>
+          </NavigationContainer>
+          
+          <FlashMessage position={'right'} floating={true} />
+        </SafeAreaProvider>
+      </NetworkProvider>
     </Provider>
     
   )

@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useState ,useEffect} from "react";
-import { ActivityIndicator, View } from "react-native"
+import { ActivityIndicator, View,Text } from "react-native"
 import Home from "../screen/Home";
 import Signup from "../screen/Signup";
 import Login from "../screen/Login";
@@ -14,11 +14,14 @@ import QuranDetial from "../screen/Qurandetial";
 import ReferencesScreen from "../screen/Refrencesscreen";
 import ReciteQuran from "../screen/ReciteQuran";
 import ReciteQuranBy from "../screen/ReciteQuranBy";
+import { useNetwork } from "../services/Networkporvider";
+import { Colors } from "../utils/theme/colors";
+import Nointernet from "../component/Nointernet";
 
 const Mainstack = ()=>{
 
     const Stack = createNativeStackNavigator();
-
+    const {isconnected} = useNetwork();
     const [user,setUser] = useState(null);
     const [intilaizer,setIntilaizer] = useState(true);
 
@@ -35,6 +38,9 @@ const Mainstack = ()=>{
     return unsusrcibe;
     
   },[])
+
+  if(!isconnected)
+     return <Nointernet/>
   
   if (intilaizer) return <View style={{justifyContent:'center'}}>
         <ActivityIndicator size="large" color="#007AFF" />

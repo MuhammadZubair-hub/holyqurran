@@ -17,6 +17,12 @@ export const Api_Services = {
                endpoint:url,
                //data: data,
           })
+     },
+     getAllsurah : async ({surrahnumber})=>{
+          const url = `${Api_config.getQuranAllSurah}${surrahnumber}`
+          return apicall({
+               endpoint:url,
+          })
      }
 
 

@@ -11,56 +11,37 @@ import { useNavigation } from "@react-navigation/native"
 
 
 
+
 const Home = ()=>{
 
-    const images =[
-        require('../assets/images/bism.png'),
-        require('../assets/images/mainlogo.png'),
-        require('../assets/images/masgid.png')
-    ]
-
- 
-
-    const [index,setIndex] = useState(0)
     const navigation = useNavigation();
-
-    // useEffect(()=>{
-
-    //     const interval = setInterval(()=>{
-    //         setIndex(prev =>(prev +1 )% images.length)
-    //     },3000)
-
-    //     return ()=> clearInterval(interval);
-
-    // },[]) 
-
     
 
     return(
         
         <Basescreen scroable={false} containerstyle={{backgroundColor:Colors.whiteaccent}}>
-  <MyHeader username={'user 1'} />
+          <MyHeader username={'user 1'} />
 
-  <View style={styles.mainRow}>
-    {/* Right Side: Background Image */}
-    <Image 
-      blurRadius={0}
-      source={require('../assets/images/grill4.png')} 
-      style={styles.sideImage}
-    />
+          <View style={styles.mainRow}>
+            {/* Right Side: Background Image */}
+            <Image 
+              blurRadius={0}
+              source={require('../assets/images/grill4.png')} 
+              style={styles.sideImage}
+            />
 
-    {/* Left Side: Cards on top of image */}
-    <View style={styles.cardsContainer}>
-      {HomeWidgets.map((item, index) => (
-        <Homescreencard  
-          title={item.name} 
-          onPress={() => navigation.navigate(item.screenname)}
-          key={index}
-        />
-      ))}
-    </View>
-  </View>
-</Basescreen>
+            {/* Left Side: Cards on top of image */}
+            <View style={styles.cardsContainer}>
+              {HomeWidgets.map((item, index) => (
+                <Homescreencard  
+                  title={item.name} 
+                  onPress={() => navigation.navigate(item.screenname)}
+                  key={index}
+                />
+              ))}
+            </View>
+          </View>
+      </Basescreen>
     )
 }
 

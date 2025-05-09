@@ -1,32 +1,45 @@
-import {
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-    Text,
-    View,
-    FlatList,
-    ActivityIndicator
-  } from "react-native";
-  import Basescreen from "../component/Basescreen";
-  import Ionicons from "react-native-vector-icons/Ionicons";
-  import { Colors } from "../utils/theme/colors";
-  import { mvs, scale, vs } from "../utils/theme/responsive";
-  import { useEffect, useState } from "react";
-  import { Api_Services } from "../services/Api_Services";
+import {StyleSheet,TextInput,TouchableOpacity,Text,View,FlatList,ActivityIndicator} from "react-native";
+import Basescreen from "../component/Basescreen";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Colors } from "../utils/theme/colors";
+import { mvs, scale, vs } from "../utils/theme/responsive";
+import { useCallback, useEffect, useState } from "react";
+import { Api_Services } from "../services/Api_Services";
+import { useRoute } from "@react-navigation/native";
+import debounce from "lodash"
   
   const ReciteQuranBy = () => {
-    const [juznumber, setJuznumber] = useState('');
+    const route = useRoute();
+    const {name = ''} = route.params || {};
+    const [number, setNumber] = useState('1');
     const [ayahs, setAyahs] = useState([]);
+    const [surahname,setSurahname] = useState('');
     const [loading, setLoading] = useState(false);
   
     useEffect(() => {
-      getAllJuz();
-    }, [juznumber]);
+        console.log('the name is : ', name)
+
+        getQuran();
+      
+    }, [number]);
+
+    const getQuran =()=>{
+      switch (name) {
+        case 'Juz':
+            getAllJuz();
+            break;
+        case 'Surah':
+            getAllSurah();
+            break;
+        default:
+            break;
+      }
+    }
   
     const getAllJuz = async () => {
       try {
         setLoading(true);
-        const juzdata = await Api_Services.getAlljuz({ juznumber: juznumber });
+        const juzdata = await Api_Services.getAlljuz({ juznumber: number });
         const ayahsArray = juzdata?.data?.data?.ayahs || [];
         setAyahs(ayahsArray);
       } catch (error) {
@@ -35,13 +48,30 @@ import {
         setLoading(false);
       }
     };
+
+    const getAllSurah = async () => {
+        try {
+          setLoading(true);
+          const surahdata = await Api_Services.getAllsurah({surrahnumber: number});
+          console.log('surah data :',surahdata?.data)
+          const ayahsArray = surahdata?.data?.data?.ayahs || [];
+          setSurahname(surahdata?.data?.data?.name);
+          setAyahs(ayahsArray);
+        } catch (error) {
+          console.log("Error fetching Juz:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
   
     const renderAyah = ({ item, index }) => (
       <Text style={styles.text}>
         {index + 1}. {item.text}
       </Text>
     );
-  
+
+    
     return (
       <Basescreen
         scroable={true}
@@ -50,40 +80,34 @@ import {
       >
         <Text style={styles.titleText}>بِسْمِ ٱللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</Text>
         <View style={styles.searchconatiner}>
-          <TextInput
-            value={juznumber}
-            onChangeText={(value) => {
-              const num = Number(value);
-              if (!isNaN(num) && num > 0 && num <= 30) {
-                setJuznumber(num);
-              }
-            }}
-            style={styles.searchfield}
-            keyboardType="number-pad"
-            placeholder="Search Juz by number"
-          />
-          <TouchableOpacity onPress={getAllJuz}>
-            <Ionicons
-              name="search-outline"
-              size={vs(24)}
-              color={Colors.primary}
+            <TextInput
+              value={number}
+              onChangeText={setNumber}
+              style={styles.searchfield}
+              keyboardType="number-pad"
+              placeholder="Search by number"
             />
-          </TouchableOpacity>
+            <TouchableOpacity onPress={getQuran}>
+              <Ionicons
+                name="search-outline"
+                size={vs(24)}
+                color={Colors.primary}
+              />
+            </TouchableOpacity>
         </View>
-        
+
   
         
   
         <View style={styles.maincontainer}>
-          <Text style={styles.titleText}>Juz {juznumber} - Ayahs</Text>
+          <Text style={styles.titleText}>{name} {number} -  {surahname}</Text>
   
           {loading ? (
             <ActivityIndicator size="large" color={Colors.primary} />
           ) : (
             <FlatList
               data={ayahs}
-              keyExtractor={(item, index) =>
-                item?.number?.toString() || index.toString()
+              keyExtractor={(item, index) =>item?.number?.toString() || index.toString()
               }
               renderItem={renderAyah}
               initialNumToRender={10}

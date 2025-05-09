@@ -9,15 +9,18 @@ import { useNavigation } from "@react-navigation/native"
 const ReciteQuran = ()=>{
     const navigation = useNavigation();
     return(
-        <Basescreen scroable={true}>
+        <Basescreen scroable={true} containerstyle={{backgroundColor:Colors.whiteaccent}}>
 
                 <Text style={styles.titleText}>Recite Quran </Text>
                 <TouchableOpacity 
                 style={styles.maincontainer}
-                onPress={()=>navigation.navigate('ReciteQuranBy')}>
+                onPress={()=>navigation.navigate('ReciteQuranBy',{ name : 'Juz'})}>
                     <Text style={styles.text}>Recite Juz</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.maincontainer}>
+                <TouchableOpacity 
+                style={styles.maincontainer}
+                onPress={()=>navigation.navigate('ReciteQuranBy',{ name : 'Surah'})}
+                >
                     <Text style={styles.text}> Recite Surah </Text>
                 </TouchableOpacity >
                 <TouchableOpacity style={styles.maincontainer}>
