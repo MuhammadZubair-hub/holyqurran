@@ -15,17 +15,17 @@ import auth from '@react-native-firebase/auth'
 const Home = ()=>{
 
     const navigation = useNavigation();
-    let user = '';
-    useEffect(() => {
+    // let user = '';
+    // useEffect(() => {
       
-      fetchUser();
-    }, []);
+    //   fetchUser();
+    // }, []);
     
-    const fetchUser = async () => {
-        // user = auth().currentUser;
-        // await user?.reload(); 
-        console.log('user name in homescreen', auth().currentUser?.displayName);
-      };
+    // const fetchUser = async () => {
+    //     // user = auth().currentUser;
+    //     // await user?.reload(); 
+    //     console.log('user name in homescreen', auth().currentUser?.displayName);
+    //   };
 
     return(
         

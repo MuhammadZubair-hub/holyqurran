@@ -1,4 +1,4 @@
-import {StyleSheet,TextInput,TouchableOpacity,Text,View,FlatList,ActivityIndicator,Alert} from "react-native";
+import {StyleSheet,TextInput,TouchableOpacity,Text,View,FlatList,ActivityIndicator,Alert, ScrollView} from "react-native";
 import Basescreen from "../component/Basescreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors } from "../utils/theme/colors";
@@ -8,24 +8,66 @@ import { Api_Services } from "../services/Api_Services";
 import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { getUser } from "../utils/shared/redux/Userslice";
+import { FastField } from "formik";
+import Buton from "../component/Button/Buton";
   
   const ReciteQuranBy = () => {
     const route = useRoute();
     const {name = ''} = route.params || {};
     const [number, setNumber] = useState('1');
     const [ayahs, setAyahs] = useState([]);
+    const [ayahstranslate, setAyahsTranslate] = useState([]);
     const [surahname,setSurahname] = useState('');
     const [loading, setLoading] = useState(false);
+    //const [translate,setTranslate] = useState(false);
+    const [showTranslations, setShowTranslations] = useState(false);
+
+  // handler toggles that state
+      const handleGetTranslate = () => {
+        setShowTranslations(prev => !prev);
+      };
+
+    const translatedata = [
+      {
+        edition:'ur.ahmedali',
+        language:'Urdu'
+      },
+      {
+        edition:'en.asad',
+        language:'English'
+      },
+      {
+        edition:'bn.bengali',
+        language:'Banglli'
+      },
+      {
+        edition:'fr.hamidullah',
+        language:'French'
+      },
+      {
+        edition:'hi.hindi',
+        language:'Hindi'
+      },
+      {
+        edition:'en.asad',
+        language:'English'
+      },
+      {
+        edition:'en.asad',
+        language:'English'
+      },
+    ]
     
   
     useEffect(() => {
-        //console.log('the name is : ', name)
+        
 
         getQuran();
       
     }, []);
 
     const getQuran =()=>{
+      setAyahsTranslate([]);
       switch (name) {
         case 'Juz':
             getAllJuz();
@@ -69,10 +111,33 @@ import { getUser } from "../utils/shared/redux/Userslice";
         }
       };
 
+      const getAllSurahWithTranslation = async ({editionname}) => {
+        try {
+          setLoading(true);
+          const surahdata = await Api_Services.getAllsurah({surrahnumber: number , edition:editionname});
+          const ayahsArray = surahdata?.data?.data?.ayahs || [];
+          setSurahname(surahdata?.data?.data?.name);
+          setAyahsTranslate(ayahsArray);
+        } catch (error) {
+          
+          Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
+          return
+        } finally {
+          setLoading(false);
+        }
+      };
+
+
   
     const renderAyah = ({ item, index }) => (
       
         <Text style={styles.text}>
+        {index + 1}-  {item.text}
+      </Text>
+    );
+      const renderTranslateAyah = ({ item, index }) => (
+      
+        <Text style={[styles.text,{textAlign:'justify'}]}>
         {index + 1}-  {item.text}
       </Text>
       
@@ -84,6 +149,7 @@ import { getUser } from "../utils/shared/redux/Userslice";
         scroable={true}
         paddingHorizontal={mvs(10)}
         containerstyle={{ backgroundColor: Colors.whiteaccent}}
+      
       >
         <Text style={styles.titleText}>بِسْمِ ٱللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</Text>
         <View style={styles.searchconatiner}>
@@ -102,6 +168,33 @@ import { getUser } from "../utils/shared/redux/Userslice";
               />
             </TouchableOpacity>
         </View>
+
+          <Buton
+          buttontitle={showTranslations ? 'Hide translations' : 'Get translate'}
+          paddingvertical={vs(5)}
+          onpress={handleGetTranslate}
+        />
+
+            {showTranslations && (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{flexGrow:0}}
+                contentContainerStyle={{
+                  //flexWrap:'wrap',
+                  flexDirection: 'row',
+                  marginTop:vs(10),
+                  columnGap:vs(10),
+                  
+                }}
+              >
+                {translatedata.map((item, index) => (
+                  <Buton key={index} buttontitle={item.language} padding={vs(5)} 
+                  onpress={()=>getAllSurahWithTranslation({editionname:item.edition})}
+                  ></Buton>
+                ))}
+              </ScrollView>
+            )}
 
   
         
@@ -128,7 +221,40 @@ import { getUser } from "../utils/shared/redux/Userslice";
               showsVerticalScrollIndicator={false}
             />
           )}
+
+          
+
+          </View>
+
+          {showTranslations?(
+            <View style={styles.maincontainer}>
+          
+          <Text style={styles.titleText}>{name} {number}</Text>
+          {surahname?(
+            <Text style={styles.titleText}> -{surahname}</Text>
+          ):(null)}
+  
+          {loading ? (
+            <ActivityIndicator size="large" color={Colors.primary} />
+          ) : (
+            <FlatList
+              data={ayahstranslate}
+              keyExtractor={(item, index) =>item?.number?.toString() || index.toString()
+              }
+              renderItem={renderTranslateAyah}
+              initialNumToRender={10}
+              maxToRenderPerBatch={10}
+              windowSize={5}
+              removeClippedSubviews={true}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+
+          
+
         </View>
+          ):(null)}
+
       </Basescreen>
     );
   };
@@ -156,7 +282,7 @@ const styles =  StyleSheet.create({
         fontSize: scale(24),
         fontWeight: 'bold',
         textAlign: 'center',
-        marginVertical: mvs(10),
+        marginTop: mvs(10),
       },
       searchfield:{
         flex:1,
@@ -171,9 +297,11 @@ const styles =  StyleSheet.create({
         justifyContent:"space-between",
         flexDirection:"row",
         flexWrap:'wrap',
-        alignItems:'center'
-        
-      }
+        alignItems:'center',
+        paddingRight:vs(10),
+        marginVertical:mvs(20),
+      },
+      
 })
    
 

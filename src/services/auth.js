@@ -1,4 +1,6 @@
-import auth from '@react-native-firebase/auth'
+import auth ,{GoogleAuthProvider, getAuth, signInWithCredential}from '@react-native-firebase/auth'
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
 
 
 export const  registerUser = async (name,email,password) =>{
@@ -91,4 +93,47 @@ export const resetpassword = async (email)=>{
         }
         
     }
+}
+
+
+
+// export const signInWithGoogle = async () => {
+//   try {
+//     await GoogleSignin.hasPlayServices();
+//     const { idToken } = await GoogleSignin.signIn();
+//     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+//     return auth().signInWithCredential(googleCredential);
+//   } catch (error) {
+//     console.error("Google Sign-In Error: ", error);
+//     throw error;
+//   }
+// };
+
+
+
+
+
+export const signInWithGoogle = async function onGoogleButtonPress() {
+  
+  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  
+   await GoogleSignin.signOut();
+
+  const signInResult = await GoogleSignin.signIn();
+
+//   Try the new style of google-sign in result, from v13+ of that module
+ const idToken = signInResult.data?.idToken;
+  if (!idToken) {
+    // if you are using older versions of google-signin, try old style result
+    idToken = signInResult.idToken;
+  }
+  if (!idToken) {
+    throw new Error('No ID token found');
+  }
+
+  // Create a Google credential with the token
+  const googleCredential = GoogleAuthProvider.credential(signInResult.data.idToken);
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(googleCredential);
 }

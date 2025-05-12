@@ -4,7 +4,7 @@ import Input from "../component/Input/Input"
 import { useEffect, useState } from "react"
 import { scale, vs } from "../utils/theme/responsive"
 import Buton from "../component/Button/Buton"
-import { loginUser } from "../services/auth"
+import { loginUser, signInWithGoogle } from "../services/auth"
 import { Formik } from "formik"
 import { showMessage } from "react-native-flash-message"
 import Basescreen from "../component/Basescreen"
@@ -13,20 +13,40 @@ import { useNavigation } from "@react-navigation/native"
 import { useSelector } from "react-redux"
 import { getUser } from "../utils/shared/redux/Userslice"
 import auth from '@react-native-firebase/auth'
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Web_id } from "../utils/constant/endpoint"
 
 const Login = ()=>{
 
-    const navigation = useNavigation();
 
-    // useEffect(() => {
-    //   const fetchUser = async () => {
-    //     const user = auth().currentUser;
-    //     await user?.reload(); 
-    //     console.log('user name is', auth().currentUser?.displayName);
-    //   };
-    //   fetchUser();
-    // }, []);
+    useEffect(()=>{
+      GoogleSignin.configure({
+          webClientId: Web_id
+            });
+    },[])
+
+    const navigation = useNavigation();
+    const [loading,setLoading] = useState(false);
     
+
+    const handleGoogleLogin = async () => {
+          try {
+            setLoading(true);
+            const userCredential = await signInWithGoogle();
+            setLoading(false);
+            console.log('User Info:', userCredential.user.displayName);
+            showMessage({
+              message: 'Logged in with Google',
+              type: 'success',
+            });
+          } catch (error) {
+            showMessage({
+              message: 'Login failed',
+              description: error.message,
+              type: 'danger',
+            });
+          }
+        };
 
     const handleLogin = async (values) => {
         const { email, password } = values;
@@ -52,6 +72,7 @@ const Login = ()=>{
               type: 'success',
               style:Commonstyle.sucsses,
             });
+            setLoading(false);
             navigation.navigate('Home');
           } else {
             showMessage({
@@ -119,6 +140,14 @@ const Login = ()=>{
                                 buttontitle='Login'
                                 paddingvertical={vs(10)}
                                 onpress={handleSubmit}>
+
+                            </Buton>
+                            <Buton
+                                //isLoading={loading}
+                                buttontitle='Continue with Google'
+                                buttonicon="logo-google"
+                                paddingvertical={vs(10)}
+                                onpress={handleGoogleLogin}>
 
                             </Buton>
                         </View>

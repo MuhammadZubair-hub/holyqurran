@@ -12,7 +12,20 @@
           "package_name": "com.hloyquran"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "21544338566-upq6nqh57d83ugpukkes2t627n3gjj30.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hloyquran",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "21544338566-41v13vjfh21jje4pss34oa87c0e40cqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCXjw9hp1e5AnkHwTbwmMzeXbyRGFGL13M"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21544338566-41v13vjfh21jje4pss34oa87c0e40cqp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
