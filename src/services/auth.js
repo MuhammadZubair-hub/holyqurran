@@ -1,11 +1,16 @@
 import auth from '@react-native-firebase/auth'
 
 
-export const  registerUser = async (email,password) =>{
+export const  registerUser = async (name,email,password) =>{
 
     try {
 
         const usercredtianls = await auth().createUserWithEmailAndPassword(email,password);
+
+        await usercredtianls.user.updateProfile({
+            displayName: name,
+        });
+        
         await usercredtianls.user.sendEmailVerification();
         return usercredtianls.user;
         
@@ -13,19 +18,19 @@ export const  registerUser = async (email,password) =>{
         let errormeassage;
         switch (error.code) {
             case 'auth/email-already-in-use':
-                errormeassage = " this email is already in use"
+                errormeassage = " This email is already in use"
                 break;
 
             case 'auth/invalid-email':
-                    errormeassage = "this is not a valid email"
+                    errormeassage = "This is not a valid email"
                     break;
                 
             case 'auth/weak-password':
-                        errormeassage = "password is very week "
+                        errormeassage = "password is very weak "
                         break;
         
             default:
-                    errormeassage='unknown error '
+                    errormeassage='Unknown error '
                 break;
         }
 

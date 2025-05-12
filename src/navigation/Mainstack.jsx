@@ -37,18 +37,18 @@ const Mainstack = ()=>{
 
     return unsusrcibe;
     
-  },[])
+  },[user])
 
   if(!isconnected)
      return <Nointernet/>
   
-  if (intilaizer) return <View style={{justifyContent:'center'}}>
-        <ActivityIndicator size="large" color="#007AFF" />
+  if (intilaizer) return <View style={{ flex:1,justifyContent:'center' , alignItems:'center'}}>
+        <ActivityIndicator size="large" color={Colors.primary}/>
       </View>
 
     return (
         <Stack.Navigator screenOptions={{headerShown:false}}>
-          {user? (
+          {user && user.emailVerified?  (
             <>
             <Stack.Screen name ='Home' component={Home} />
             <Stack.Screen name ='QuranDetial' component={QuranDetial} />

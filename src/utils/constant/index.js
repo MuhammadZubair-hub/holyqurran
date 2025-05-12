@@ -15,8 +15,9 @@ export const apicall = async ({endpoint, method = 'Get', params = {}, data = {} 
       return response;
     } catch (error) {
 
-        console.log('the error calling api is  : ', error);
-        //Alert.alert('erorr calling api ', error);
-        return
+      console.log('The error calling API is:', error?.response?.data || error.message);
+    
+      
+      throw error.response?.data || { message: 'Something went wrong' };
     }
 }

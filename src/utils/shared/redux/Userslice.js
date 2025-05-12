@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const intialstate  ={
-    user :[],
+    User :'',
     Qurandetialdata:[],
 }
 
@@ -10,10 +10,10 @@ const Userslice = createSlice({
     initialState : intialstate,
     reducers:{
         setUserData : (state,action)=>{
-            state.user = action.payload
+            state.User = action.payload
         },
         clearUserData :(state)=>{
-            state.user= null;
+            state.User= null;
         },
         setqurandetialdata :(state , action)=>{
             state.Qurandetialdata = action.payload
@@ -21,7 +21,7 @@ const Userslice = createSlice({
     }
 })
 
-export const getUser = (state)=>state.user;
+export const getUser = (state)=>state.user.User;
 export const getqurandetialdata  = (state) => state.user.Qurandetialdata;
 
 

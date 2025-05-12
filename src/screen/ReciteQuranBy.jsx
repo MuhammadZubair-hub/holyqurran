@@ -1,4 +1,4 @@
-import {StyleSheet,TextInput,TouchableOpacity,Text,View,FlatList,ActivityIndicator} from "react-native";
+import {StyleSheet,TextInput,TouchableOpacity,Text,View,FlatList,ActivityIndicator,Alert} from "react-native";
 import Basescreen from "../component/Basescreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors } from "../utils/theme/colors";
@@ -6,7 +6,8 @@ import { mvs, scale, vs } from "../utils/theme/responsive";
 import { useCallback, useEffect, useState } from "react";
 import { Api_Services } from "../services/Api_Services";
 import { useRoute } from "@react-navigation/native";
-import debounce from "lodash"
+import { useSelector } from "react-redux";
+import { getUser } from "../utils/shared/redux/Userslice";
   
   const ReciteQuranBy = () => {
     const route = useRoute();
@@ -15,13 +16,14 @@ import debounce from "lodash"
     const [ayahs, setAyahs] = useState([]);
     const [surahname,setSurahname] = useState('');
     const [loading, setLoading] = useState(false);
+    
   
     useEffect(() => {
-        console.log('the name is : ', name)
+        //console.log('the name is : ', name)
 
         getQuran();
       
-    }, [number]);
+    }, []);
 
     const getQuran =()=>{
       switch (name) {
@@ -43,7 +45,9 @@ import debounce from "lodash"
         const ayahsArray = juzdata?.data?.data?.ayahs || [];
         setAyahs(ayahsArray);
       } catch (error) {
-        console.log("Error fetching Juz:", error);
+    
+        Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
+        return
       } finally {
         setLoading(false);
       }
@@ -53,12 +57,13 @@ import debounce from "lodash"
         try {
           setLoading(true);
           const surahdata = await Api_Services.getAllsurah({surrahnumber: number});
-          console.log('surah data :',surahdata?.data)
           const ayahsArray = surahdata?.data?.data?.ayahs || [];
           setSurahname(surahdata?.data?.data?.name);
           setAyahs(ayahsArray);
         } catch (error) {
-          console.log("Error fetching Juz:", error);
+          
+          Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
+          return
         } finally {
           setLoading(false);
         }
@@ -66,9 +71,11 @@ import debounce from "lodash"
 
   
     const renderAyah = ({ item, index }) => (
-      <Text style={styles.text}>
-        {index + 1}. {item.text}
+      
+        <Text style={styles.text}>
+        {index + 1}-  {item.text}
       </Text>
+      
     );
 
     
@@ -100,7 +107,11 @@ import debounce from "lodash"
         
   
         <View style={styles.maincontainer}>
-          <Text style={styles.titleText}>{name} {number} -  {surahname}</Text>
+          
+          <Text style={styles.titleText}>{name} {number}</Text>
+          {surahname?(
+            <Text style={styles.titleText}> -{surahname}</Text>
+          ):(null)}
   
           {loading ? (
             <ActivityIndicator size="large" color={Colors.primary} />
@@ -136,7 +147,7 @@ const styles =  StyleSheet.create({
       },
       text: {
         color: Colors.primary,
-        fontSize: scale(20),
+        fontSize: scale(25),
         fontWeight: '500',
         textAlign: 'right',
       },

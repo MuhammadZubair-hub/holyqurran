@@ -15,7 +15,7 @@ export const NetworkProvider =({children})=>{
 
         const unsuscribe = NetInfo.addEventListener(state =>{
             setIsConnected(state.isConnected)},
-            console.log('network connection : ', isconnected),
+            //console.log('network connection : ', isconnected),
         );
 
          return () =>  unsuscribe();   

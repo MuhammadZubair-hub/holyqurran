@@ -8,19 +8,29 @@ import { mvs, vs, width } from "../utils/theme/responsive"
 import Homescreencard from "../component/card/Homescreencard"
 import { HomeWidgets } from "../utils/constant/Staticdata"
 import { useNavigation } from "@react-navigation/native"
-
+import auth from '@react-native-firebase/auth'
 
 
 
 const Home = ()=>{
 
     const navigation = useNavigation();
+    let user = '';
+    useEffect(() => {
+      
+      fetchUser();
+    }, []);
     
+    const fetchUser = async () => {
+        // user = auth().currentUser;
+        // await user?.reload(); 
+        console.log('user name in homescreen', auth().currentUser?.displayName);
+      };
 
     return(
         
         <Basescreen scroable={false} containerstyle={{backgroundColor:Colors.whiteaccent}}>
-          <MyHeader username={'user 1'} />
+          <MyHeader username={auth().currentUser?.displayName} />
 
           <View style={styles.mainRow}>
             {/* Right Side: Background Image */}

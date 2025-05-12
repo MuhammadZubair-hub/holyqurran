@@ -21,7 +21,7 @@ export const Commonstyle = StyleSheet.create({
             rowGap:20,
             borderTopRightRadius:40,
             borderTopLeftRadius:40,
-            height:"70%",
+            minHeight:"70%",
           
         },
         logoContainer: {

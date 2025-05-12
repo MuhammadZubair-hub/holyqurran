@@ -5,9 +5,20 @@ import { Colors } from "../../utils/theme/colors"
 import auth from '@react-native-firebase/auth'
 import { showMessage } from "react-native-flash-message"
 import { Commonstyle } from "../../utils/shared/Style/globalstyle"
+import { useSelector } from "react-redux"
+import { getUser } from "../../utils/shared/redux/Userslice"
+import { useEffect } from "react"
+import { combineSlices } from "@reduxjs/toolkit"
 
 const MyHeader =({username})=>{
 
+    //const user_name = useSelector(getUser);
+    //const user = auth().currentUser;
+
+    // useEffect(()=>{
+    //     console.log('the user name is :' , user);
+    // },[])
+    
     const handleLogout = async ()=>{
         try {
                     await auth().signOut();
@@ -34,7 +45,7 @@ const MyHeader =({username})=>{
                 name="person-circle-outline"
                 size={vs(40)} 
                 color={Colors.golden} />
-                <Text>username :{username}</Text>
+                <Text style={{fontSize:vs(20), color:Colors.golden }}>{username} </Text>
             </View>
             <View style ={styles.headercontainer}>
                 <Ionicons 

@@ -1,7 +1,7 @@
 import { Alert, Image, StyleSheet, Text, View } from "react-native"
 import { Colors } from "../utils/theme/colors"
 import Input from "../component/Input/Input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { scale, vs } from "../utils/theme/responsive"
 import Buton from "../component/Button/Buton"
 import { loginUser } from "../services/auth"
@@ -12,14 +12,25 @@ import { Commonstyle } from "../utils/shared/Style/globalstyle"
 import { useNavigation } from "@react-navigation/native"
 import { useSelector } from "react-redux"
 import { getUser } from "../utils/shared/redux/Userslice"
+import auth from '@react-native-firebase/auth'
 
 const Login = ()=>{
 
     const navigation = useNavigation();
+
+    // useEffect(() => {
+    //   const fetchUser = async () => {
+    //     const user = auth().currentUser;
+    //     await user?.reload(); 
+    //     console.log('user name is', auth().currentUser?.displayName);
+    //   };
+    //   fetchUser();
+    // }, []);
+    
+
     const handleLogin = async (values) => {
-
-
         const { email, password } = values;
+        
       
         if (!email || !password) {
           showMessage({
@@ -41,6 +52,7 @@ const Login = ()=>{
               type: 'success',
               style:Commonstyle.sucsses,
             });
+            navigation.navigate('Home');
           } else {
             showMessage({
               message: 'Unauthorized',

@@ -10,21 +10,24 @@ import { showMessage } from "react-native-flash-message"
 import { Commonstyle } from "../utils/shared/Style/globalstyle"
 import { Formik } from "formik"
 import { useNavigation } from "@react-navigation/native"
+import { useDispatch } from "react-redux"
+import { setUserData } from "../utils/shared/redux/Userslice"
 
 const Signup = ()=>{
 
     
 
     const navigation = useNavigation();
+    
 
     const handleRegister = async (values)=>{
 
-        const {email, password, confirmpassword} = values
+        const {name, email, password, confirmpassword} = values
 
-        if (!email || !password || !confirmpassword) {
+        if (!name ||!email || !password || !confirmpassword) {
                   showMessage({
                     message: 'Missing Fields',
-                    description: 'Please enter email and password',
+                    description: 'All Filed are required',
                     type: 'danger',
                     style: Commonstyle.error,
                   });
@@ -32,14 +35,15 @@ const Signup = ()=>{
                 }
         try {
 
-            await registerUser(email,password);
-
+            await registerUser(name,email,password);
+            
             showMessage({
-                message:'Success',
+                message:'Account created',
                 description:'Verfication email has been sent to your email',
                 type :'success',
                 style:Commonstyle.sucsses
             })   
+            navigation.navigate('Login');
         } catch (error) {
             showMessage({
                 message:'Error',
@@ -66,7 +70,7 @@ const Signup = ()=>{
                             Sign Up
                         </Text>
                 <Formik
-                  initialValues={{email :'' , password : '' ,confirmpassword:''}}
+                  initialValues={{name:'' ,email :'' , password : '' ,confirmpassword:''}}
                   onSubmit={handleRegister}>
                   {({
                       handleChange,
@@ -76,6 +80,12 @@ const Signup = ()=>{
                       
                   })=>(
                         <View style={{ rowGap: vs(40) }}>
+                            <Input
+                                value={values.name}
+                                placeholder='Enter username'
+                                onChange={handleChange('name')}
+                                onBlur={handleBlur('name')}
+                                iconname={'person-circle-outline'}></Input>
                             <Input
                                 value={values.email}
                                 placeholder='Enter email'
