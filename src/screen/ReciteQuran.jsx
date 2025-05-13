@@ -14,12 +14,12 @@ const ReciteQuran = ()=>{
                 <Text style={styles.titleText}>Recite Quran </Text>
                 <TouchableOpacity 
                 style={styles.maincontainer}
-                onPress={()=>navigation.navigate('ReciteQuranByJuzz',)}>
+                onPress={()=>navigation.navigate('ReciteQuranByJuzz',{ref : null})}>
                     <Text style={styles.text}>Recite Juz</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                 style={styles.maincontainer}
-                onPress={()=>navigation.navigate('ReciteQuranBy',)}
+                onPress={()=>navigation.navigate('ReciteQuranBy',{ref : null})}
                 >
                     <Text style={styles.text}> Recite Surah </Text>
                 </TouchableOpacity >

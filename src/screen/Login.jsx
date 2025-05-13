@@ -22,9 +22,6 @@ const Login = ()=>{
 
     useEffect(()=>{
 
-      
-
-      console.log('the ienset is :', insets )
       GoogleSignin.configure({
           webClientId: Web_id
             });
@@ -32,9 +29,7 @@ const Login = ()=>{
 
     const navigation = useNavigation();
     const [loading,setLoading] = useState(false);
-    const insets = useSafeAreaInsets()
     
-
     const handleGoogleLogin = async () => {
           try {
             setLoading(true);

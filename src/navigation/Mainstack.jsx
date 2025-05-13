@@ -20,6 +20,7 @@ import Nointernet from "../component/Nointernet";
 
 import { Web_id } from "../utils/constant/endpoint";
 import ReciteQuranByJuzz from "../screen/ReciteQuranByJuzz";
+import ParyerTime from "../screen/PrayerTime";
 
 const Mainstack = ()=>{
 
@@ -60,6 +61,7 @@ const Mainstack = ()=>{
             <Stack.Screen name='ReciteQuran' component={ReciteQuran}/>
             <Stack.Screen name='ReciteQuranBy' component={ReciteQuranBy}/>
             <Stack.Screen name='ReciteQuranByJuzz' component={ReciteQuranByJuzz}/>
+            <Stack.Screen name='PrayerTime' component={ParyerTime}/>
             </>
             
           ):(

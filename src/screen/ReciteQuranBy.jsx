@@ -10,9 +10,17 @@ import { useSelector } from "react-redux";
 import { getUser } from "../utils/shared/redux/Userslice";
 import { FastField } from "formik";
 import Buton from "../component/Button/Buton";
+import { translatedata } from "../utils/constant/Staticdata";
   
   const ReciteQuranBy = () => {
-    
+
+    useEffect(() => {
+        getAllSurah();
+    }, []);
+
+    const route = useRoute();
+    const {ref} = route.params;
+
     const [number, setNumber] = useState('1');
     const [ayahs, setAyahs] = useState([]);
     const [ayahstranslate, setAyahsTranslate] = useState([]);
@@ -26,53 +34,11 @@ import Buton from "../component/Button/Buton";
         setShowTranslations(prev => !prev);
       };
 
-    const translatedata = [
-      {
-        edition:'ur.ahmedali',
-        language:'Urdu'
-      },
-      {
-        edition:'en.asad',
-        language:'English'
-      },
-      {
-        edition:'bn.bengali',
-        language:'Banglli'
-      },
-      {
-        edition:'fr.hamidullah',
-        language:'French'
-      },
-      {
-        edition:'hi.hindi',
-        language:'Hindi'
-      },
-      {
-        edition:'en.asad',
-        language:'English'
-      },
-      {
-        edition:'en.asad',
-        language:'English'
-      },
-    ]
-    
   
-    useEffect(() => {
-        
-
-        getAllSurah();
-      
-    }, []);
-
-   
-
-    
-
     const getAllSurah = async () => {
         try {
           setLoading(true);
-          const surahdata = await Api_Services.getAllsurah({surrahnumber: number});
+          const surahdata = await Api_Services.getAllsurah({surrahnumber: ref ? ref: number});
           const ayahsArray = surahdata?.data?.data?.ayahs || [];
           setSurahname(surahdata?.data?.data?.name);
           setAyahs(ayahsArray);
@@ -88,7 +54,7 @@ import Buton from "../component/Button/Buton";
       const getAllSurahWithTranslation = async ({editionname}) => {
         try {
           setLoading(true);
-          const surahdata = await Api_Services.getAllsurah({surrahnumber: number , edition:editionname});
+          const surahdata = await Api_Services.getAllsurah({surrahnumber: ref ?ref: number , edition:editionname});
           const ayahsArray = surahdata?.data?.data?.ayahs || [];
           setSurahname(surahdata?.data?.data?.name);
           setAyahsTranslate(ayahsArray);
@@ -126,7 +92,9 @@ import Buton from "../component/Button/Buton";
       
       >
         <Text style={styles.titleText}>بِسْمِ ٱللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</Text>
-        <View style={styles.searchconatiner}>
+       {!ref?(
+
+         <View style={styles.searchconatiner}>
             <TextInput
               value={number}
               onChangeText={setNumber}
@@ -142,9 +110,12 @@ import Buton from "../component/Button/Buton";
               />
             </TouchableOpacity>
         </View>
+       ):(
+        null
+       )}
 
           <Buton
-          buttontitle={showTranslations ? 'Hide translations' : 'Get translate'}
+          buttontitle={showTranslations ? 'Hide Translations' : 'Get Translation'}
           paddingvertical={vs(5)}
           onpress={handleGetTranslate}
         />
@@ -175,7 +146,7 @@ import Buton from "../component/Button/Buton";
   
         <View style={styles.container}>
           
-          <Text style={styles.titleText}> Surah {number}</Text>
+          <Text style={styles.titleText}> Surah {ref ?ref: number}</Text>
           {surahname?(
             <Text style={styles.titleText}> -{surahname}</Text>
           ):(null)}
@@ -203,7 +174,7 @@ import Buton from "../component/Button/Buton";
           {showTranslations?(
             <View style={styles.container}>
           
-          <Text style={styles.titleText}> Surah {number}</Text>
+          <Text style={styles.titleText}> Surah {ref ?ref: number}</Text>
           {surahname?(
             <Text style={styles.titleText}> -{surahname}</Text>
           ):(null)}
@@ -256,7 +227,7 @@ const styles =  StyleSheet.create({
         fontSize: scale(24),
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: mvs(10),
+        marginVertical: mvs(10),
       },
       searchfield:{
         flex:1,
@@ -273,7 +244,7 @@ const styles =  StyleSheet.create({
         flexWrap:'wrap',
         alignItems:'center',
         paddingRight:vs(10),
-        marginVertical:mvs(20),
+        marginBottom:mvs(20),
       },
       
 })

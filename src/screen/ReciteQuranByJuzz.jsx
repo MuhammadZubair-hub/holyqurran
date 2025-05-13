@@ -7,13 +7,14 @@ import { useCallback, useEffect, useState } from "react";
 import { Api_Services } from "../services/Api_Services";
 import { useRoute } from "@react-navigation/native";
 import Buton from "../component/Button/Buton";
+import { translatedata } from "../utils/constant/Staticdata";
   
   const ReciteQuranByJuzz = () => {
 
+    const route = useRoute();
+    const {ref} = route.params;
     const [number, setNumber] = useState('1');
     const [ayahs, setAyahs] = useState([]);
-    const [ayahstranslate, setAyahsTranslate] = useState([]);
-    const [surahname,setSurahname] = useState('');
     const [loading, setLoading] = useState(false);
     const [translateayyah,setTranslateAyyah] = useState(false);
     const [showTranslations, setShowTranslations] = useState(false);
@@ -24,49 +25,14 @@ import Buton from "../component/Button/Buton";
       };
 
       useEffect(() => {
-        
-
         getAllJuz();
       
     }, []);
 
-    const translatedata = [
-      {
-        edition:'ur.ahmedali',
-        language:'Urdu'
-      },
-      {
-        edition:'en.asad',
-        language:'English'
-      },
-      {
-        edition:'bn.bengali',
-        language:'Banglli'
-      },
-      {
-        edition:'fr.hamidullah',
-        language:'French'
-      },
-      {
-        edition:'hi.hindi',
-        language:'Hindi'
-      },
-      {
-        edition:'en.asad',
-        language:'English'
-      },
-      {
-        edition:'en.asad',
-        language:'English'
-      },
-    ]
-    
-  
-  
     const getAllJuz = async () => {
       try {
         setLoading(true);
-        const juzdata = await Api_Services.getAlljuz({ juznumber: number });
+        const juzdata = await Api_Services.getAlljuz({ juznumber: ref ? ref: number });
         const ayahsArray = juzdata?.data?.data?.ayahs || [];
         setAyahs(ayahsArray);
       } catch (error) {
@@ -81,7 +47,7 @@ import Buton from "../component/Button/Buton";
     const getAllJuzTranslation = async ({editionname}) => {
       try {
         setLoading(true);
-        const juzdata = await Api_Services.getAlljuz({ juznumber: number , edition: editionname});
+        const juzdata = await Api_Services.getAlljuz({ juznumber: ref ? ref: number , edition: editionname});
         const ayahsArray = juzdata?.data?.data?.ayahs || [];
         setTranslateAyyah(ayahsArray);
       } catch (error) {
@@ -117,7 +83,8 @@ import Buton from "../component/Button/Buton";
       
       >
         <Text style={styles.titleText}>بِسْمِ ٱللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</Text>
-        <View style={styles.searchconatiner}>
+        {!ref?(
+          <View style={styles.searchconatiner}>
             <TextInput
               value={number}
               onChangeText={setNumber}
@@ -134,12 +101,13 @@ import Buton from "../component/Button/Buton";
             </TouchableOpacity>
         </View>
 
+          
+        ):(null)}
           <Buton
           buttontitle={showTranslations ? 'Hide translations' : 'Get translate'}
           paddingvertical={vs(5)}
           onpress={handleGetTranslate}
         />
-
             {showTranslations && (
               <ScrollView
                 horizontal
@@ -166,10 +134,7 @@ import Buton from "../component/Button/Buton";
   
         <View style={styles.maincontainer}>
           
-          <Text style={styles.titleText}> Juzz {number}</Text>
-          {surahname?(
-            <Text style={styles.titleText}> -{surahname}</Text>
-          ):(null)}
+          <Text style={styles.titleText}> Juzz {ref ? ref: number}</Text>
   
           {loading ? (
             <ActivityIndicator size="large" color={Colors.primary} />
@@ -194,10 +159,8 @@ import Buton from "../component/Button/Buton";
           {showTranslations?(
             <View style={styles.maincontainer}>
           
-          <Text style={styles.titleText}> Juzz {number}</Text>
-          {surahname?(
-            <Text style={styles.titleText}> -{surahname}</Text>
-          ):(null)}
+          <Text style={styles.titleText}> Juzz {ref ? ref: number}</Text>
+          
   
           {loading ? (
             <ActivityIndicator size="large" color={Colors.primary} />

@@ -115,9 +115,9 @@
 
 
 
-import { Alert, FlatList, StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity } from "react-native";
 import Basescreen from "../component/Basescreen";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Colors } from "../utils/theme/colors";
 import { useSelector } from "react-redux";
 import { getqurandetialdata } from "../utils/shared/redux/Userslice";
@@ -131,6 +131,7 @@ const ReferencesScreen = () => {
   const route = useRoute();
   const { ref = '' } = route.params || {}; 
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
   
   
   const quranData = useSelector(getqurandetialdata);
@@ -165,9 +166,9 @@ const ReferencesScreen = () => {
   const getRenderItem = useCallback(({ item }) => {
     switch (ref) {
       case 'Surah':
-        return <SurahItem item={item} />;
+        return <SurahItem item={item} onpress={()=>navigation.navigate('ReciteQuranBy', {ref : item?.number})} />;
       case 'Juz':
-        return <JuzItem item={item} />;
+        return <JuzItem item={item} onpress={()=>navigation.navigate('ReciteQuranByJuzz', {ref : item?.number})} />;
       case 'Sajdas':
         return <SajdaItem item={item} />;
       default:
@@ -218,15 +219,15 @@ const ReferencesScreen = () => {
   );
 };
 
-const SurahItem = memo(({ item }) => (
-    <View style={styles.maincontainer}>
+const SurahItem = memo(({ item, onpress }) => (
+    <TouchableOpacity style={styles.maincontainer} onPress={onpress} >
       <Text style={styles.text}>{item?.number}</Text>
       <View style={styles.rowContainer}>
         <Text style={styles.text}>{item?.englishName}</Text>
         <Text style={styles.text}>{item?.name}</Text>
       </View>
       <Text style={styles.text}>Ayyat: {item?.numberOfAyahs}</Text>
-    </View>
+    </TouchableOpacity>
   ));
   
   const SajdaItem = memo(({ item }) => (
@@ -236,11 +237,11 @@ const SurahItem = memo(({ item }) => (
     </View>
   ));
   
-  const JuzItem = memo(({ item }) => (
-    <View style={styles.maincontainer}>
+  const JuzItem = memo(({ item,onpress }) => (
+    <TouchableOpacity style={styles.maincontainer} onPress={onpress} >
       <Text style={styles.text}>Juz Number: {item?.number}</Text>
       <Text style={styles.text}>{item?.description || 'No description available'}</Text>
-    </View>
+    </TouchableOpacity>
   ));
   
   const EmptyListComponent = () => (

@@ -5,7 +5,7 @@ import { Base_url } from "./endpoint";
 export const apicall = async ({endpoint, method = 'Get', params = {}, data = {} })=>{
     const option = {
          method:method,
-         url : `${Base_url}${endpoint}`,
+         url : `${endpoint}`,
          params:params,
          data : data, 
     };

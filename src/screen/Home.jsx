@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native"
+import { Alert, Image, PermissionsAndroid, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 import Basescreen from "../component/Basescreen"
 import MyHeader from "../component/Header"
@@ -9,23 +9,66 @@ import Homescreencard from "../component/card/Homescreencard"
 import { HomeWidgets } from "../utils/constant/Staticdata"
 import { useNavigation } from "@react-navigation/native"
 import auth from '@react-native-firebase/auth'
+import Geolocation from "react-native-geolocation-service"
+import GetUserLocation, { requestLocationPermission } from "../component/GetUserLoaction"
+import { Api_Services } from "../services/Api_Services"
 
 
 
 const Home = ()=>{
+    
+    
+    useEffect(()=>{
+      requestLocationPermission();
+      
+    },[])
 
     const navigation = useNavigation();
-    // let user = '';
-    // useEffect(() => {
-      
-    //   fetchUser();
-    // }, []);
+    const [location,setLocation] = useState(null);
+
+    const requestLocationPermission = async () => {
+        try {
+          if (Platform.OS === 'android') {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: "Location Permission",
+                message: "App needs access to your location",
+                buttonNeutral: "Ask Me Later",
+                buttonNegative: "Cancel",
+                buttonPositive: "OK"
+              }
+            );
     
-    // const fetchUser = async () => {
-    //     // user = auth().currentUser;
-    //     // await user?.reload(); 
-    //     console.log('user name in homescreen', auth().currentUser?.displayName);
-    //   };
+            if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+              Alert.alert("Permission denied");
+              return;
+            }
+          }
+    
+          Geolocation.getCurrentPosition(
+            position => {
+              console.log("Latitude:", position.coords.latitude);
+              console.log("Longitude:", position.coords.longitude);
+              setLocation({
+                latitude : position.coords.latitude,
+                longitude : position.coords.longitude,
+              })
+            },
+            error => {
+              console.log("Location Error:", error.message);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 10000
+            }
+          );
+        } catch (err) {
+          console.warn(err);
+        }
+      };
+    
 
     return(
         
@@ -33,19 +76,18 @@ const Home = ()=>{
           <MyHeader username={auth().currentUser?.displayName} />
 
           <View style={styles.mainRow}>
-            {/* Right Side: Background Image */}
+            
             <Image 
               blurRadius={0}
               source={require('../assets/images/grill4.png')} 
               style={styles.sideImage}
             />
 
-            {/* Left Side: Cards on top of image */}
             <View style={styles.cardsContainer}>
               {HomeWidgets.map((item, index) => (
                 <Homescreencard  
                   title={item.name} 
-                  onPress={() => navigation.navigate(item.screenname)}
+                  onPress={() => navigation.navigate(item.screenname,{ref : item.name === 'Namaz Time' ? location: null})}
                   key={index}
                 />
               ))}
