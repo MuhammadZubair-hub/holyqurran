@@ -11,8 +11,8 @@ export const Api_Services = {
             data : data
             })
      },
-     getAlljuz : async ({ juznumber})=>{
-          const url =`${Api_config.getQuranJuz}${juznumber}`
+     getAlljuz : async ({ juznumber,edition})=>{
+          const url =`${Api_config.getQuranJuz}${juznumber}/${edition}`
           return apicall({
                endpoint:url,
                //data: data,

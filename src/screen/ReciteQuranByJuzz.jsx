@@ -6,25 +6,29 @@ import { mvs, scale, vs } from "../utils/theme/responsive";
 import { useCallback, useEffect, useState } from "react";
 import { Api_Services } from "../services/Api_Services";
 import { useRoute } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { getUser } from "../utils/shared/redux/Userslice";
-import { FastField } from "formik";
 import Buton from "../component/Button/Buton";
   
-  const ReciteQuranBy = () => {
-    
+  const ReciteQuranByJuzz = () => {
+
     const [number, setNumber] = useState('1');
     const [ayahs, setAyahs] = useState([]);
     const [ayahstranslate, setAyahsTranslate] = useState([]);
     const [surahname,setSurahname] = useState('');
     const [loading, setLoading] = useState(false);
-    //const [translate,setTranslate] = useState(false);
+    const [translateayyah,setTranslateAyyah] = useState(false);
     const [showTranslations, setShowTranslations] = useState(false);
 
   // handler toggles that state
       const handleGetTranslate = () => {
         setShowTranslations(prev => !prev);
       };
+
+      useEffect(() => {
+        
+
+        getAllJuz();
+      
+    }, []);
 
     const translatedata = [
       {
@@ -58,49 +62,36 @@ import Buton from "../component/Button/Buton";
     ]
     
   
-    useEffect(() => {
-        
-
-        getAllSurah();
-      
-    }, []);
-
-   
-
+  
+    const getAllJuz = async () => {
+      try {
+        setLoading(true);
+        const juzdata = await Api_Services.getAlljuz({ juznumber: number });
+        const ayahsArray = juzdata?.data?.data?.ayahs || [];
+        setAyahs(ayahsArray);
+      } catch (error) {
     
+        Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
+        return
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const getAllSurah = async () => {
-        try {
-          setLoading(true);
-          const surahdata = await Api_Services.getAllsurah({surrahnumber: number});
-          const ayahsArray = surahdata?.data?.data?.ayahs || [];
-          setSurahname(surahdata?.data?.data?.name);
-          setAyahs(ayahsArray);
-        } catch (error) {
-          
-          Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
-          return
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      const getAllSurahWithTranslation = async ({editionname}) => {
-        try {
-          setLoading(true);
-          const surahdata = await Api_Services.getAllsurah({surrahnumber: number , edition:editionname});
-          const ayahsArray = surahdata?.data?.data?.ayahs || [];
-          setSurahname(surahdata?.data?.data?.name);
-          setAyahsTranslate(ayahsArray);
-        } catch (error) {
-          
-          Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
-          return
-        } finally {
-          setLoading(false);
-        }
-      };
-
+    const getAllJuzTranslation = async ({editionname}) => {
+      try {
+        setLoading(true);
+        const juzdata = await Api_Services.getAlljuz({ juznumber: number , edition: editionname});
+        const ayahsArray = juzdata?.data?.data?.ayahs || [];
+        setTranslateAyyah(ayahsArray);
+      } catch (error) {
+    
+        Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
+        return
+      } finally {
+        setLoading(false);
+      }
+    };
 
   
     const renderAyah = ({ item, index }) => (
@@ -134,7 +125,7 @@ import Buton from "../component/Button/Buton";
               keyboardType="number-pad"
               placeholder="Search by number"
             />
-            <TouchableOpacity onPress={getAllSurah}>
+            <TouchableOpacity onPress={getAllJuz}>
               <Ionicons
                 name="search-outline"
                 size={vs(24)}
@@ -164,7 +155,7 @@ import Buton from "../component/Button/Buton";
               >
                 {translatedata.map((item, index) => (
                   <Buton key={index} buttontitle={item.language} padding={vs(5)} 
-                  onpress={()=>getAllSurahWithTranslation({editionname:item.edition})}
+                  onpress={()=>getAllJuzTranslation({editionname:item.edition})}
                   ></Buton>
                 ))}
               </ScrollView>
@@ -173,9 +164,9 @@ import Buton from "../component/Button/Buton";
   
         
   
-        <View style={styles.container}>
+        <View style={styles.maincontainer}>
           
-          <Text style={styles.titleText}> Surah {number}</Text>
+          <Text style={styles.titleText}> Juzz {number}</Text>
           {surahname?(
             <Text style={styles.titleText}> -{surahname}</Text>
           ):(null)}
@@ -201,9 +192,9 @@ import Buton from "../component/Button/Buton";
           </View>
 
           {showTranslations?(
-            <View style={styles.container}>
+            <View style={styles.maincontainer}>
           
-          <Text style={styles.titleText}> Surah {number}</Text>
+          <Text style={styles.titleText}> Juzz {number}</Text>
           {surahname?(
             <Text style={styles.titleText}> -{surahname}</Text>
           ):(null)}
@@ -212,7 +203,7 @@ import Buton from "../component/Button/Buton";
             <ActivityIndicator size="large" color={Colors.primary} />
           ) : (
             <FlatList
-              data={ayahstranslate}
+              data={translateayyah}
               keyExtractor={(item, index) =>item?.number?.toString() || index.toString()
               }
               renderItem={renderTranslateAyah}
@@ -233,11 +224,11 @@ import Buton from "../component/Button/Buton";
     );
   };
   
-  export default ReciteQuranBy;
+  export default ReciteQuranByJuzz;
 
 
 const styles =  StyleSheet.create({
-    container: {
+    maincontainer: {
         backgroundColor: Colors.secondary,
         borderRadius: vs(10),
         padding: mvs(10),

@@ -17,8 +17,9 @@ import ReciteQuranBy from "../screen/ReciteQuranBy";
 import { useNetwork } from "../services/Networkporvider";
 import { Colors } from "../utils/theme/colors";
 import Nointernet from "../component/Nointernet";
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
 import { Web_id } from "../utils/constant/endpoint";
+import ReciteQuranByJuzz from "../screen/ReciteQuranByJuzz";
 
 const Mainstack = ()=>{
 
@@ -37,9 +38,7 @@ const Mainstack = ()=>{
       if(intilaizer) setIntilaizer(false);
     })
 
-          GoogleSignin.configure({
-          webClientId: Web_id
-            });
+          
     return unsusrcibe;
     
   },[user])
@@ -60,6 +59,7 @@ const Mainstack = ()=>{
             <Stack.Screen name ='Refrencesscr' component={ReferencesScreen} />
             <Stack.Screen name='ReciteQuran' component={ReciteQuran}/>
             <Stack.Screen name='ReciteQuranBy' component={ReciteQuranBy}/>
+            <Stack.Screen name='ReciteQuranByJuzz' component={ReciteQuranByJuzz}/>
             </>
             
           ):(

@@ -15,11 +15,16 @@ import { getUser } from "../utils/shared/redux/Userslice"
 import auth from '@react-native-firebase/auth'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Web_id } from "../utils/constant/endpoint"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 const Login = ()=>{
 
 
     useEffect(()=>{
+
+      
+
+      console.log('the ienset is :', insets )
       GoogleSignin.configure({
           webClientId: Web_id
             });
@@ -27,6 +32,7 @@ const Login = ()=>{
 
     const navigation = useNavigation();
     const [loading,setLoading] = useState(false);
+    const insets = useSafeAreaInsets()
     
 
     const handleGoogleLogin = async () => {
@@ -93,7 +99,7 @@ const Login = ()=>{
       };
 
     return(
-        <Basescreen scroable={true}>
+        <Basescreen scroable={true} >
           <View style={Commonstyle.maincontainer}>
             <View style={Commonstyle.logoContainer}>
                 <Image 

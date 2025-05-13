@@ -1,12 +1,12 @@
 import { View ,Text, StyleSheet, StatusBar, ActivityIndicator } from "react-native"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
-import { Colors } from "./src/utils/theme/colors"
+import { Colors } from "./utils/theme/colors"
 import FlashMessage from "react-native-flash-message"
 import { NavigationContainer } from "@react-navigation/native"
 import { Provider} from "react-redux"
-import {store} from "./src/utils/shared/redux/store"
-import Mainstack from "./src/navigation/Mainstack"
-import { NetworkProvider } from "./src/services/Networkporvider"
+import {store} from "./utils/shared/redux/store"
+import Mainstack from "./navigation/Mainstack"
+import { NetworkProvider } from "./services/Networkporvider"
 
 const App =()=>{
 
