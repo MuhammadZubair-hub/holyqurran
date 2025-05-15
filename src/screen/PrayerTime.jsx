@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Platform, PermissionsAndroid, Alert, FlatList, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Platform, PermissionsAndroid, Alert, FlatList, Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import Geolocation from "react-native-geolocation-service";
 import Basescreen from "../component/Basescreen"
 import { Api_Services } from "../services/Api_Services";
 import { Colors } from "../utils/theme/colors"
 import { useRoute } from "@react-navigation/native";
 import { mvs, vs } from "../utils/theme/responsive";
-///import { styles } from "./Qurandetial";
 
 const ParyerTime =()=>{
 
@@ -38,16 +37,27 @@ const ParyerTime =()=>{
 
     const renderFunction = ({ item }) => {
         const [key, value] = item;
+        const [hour, minute] = value.split(':').map(Number);
+        const suffix = hour >= 12 ? 'PM' : 'AM';
+        const hour12 =( hour % 12)  || 12;
+        
+        const formattedHour = String(hour12).padStart(2, '0');
+        const formattedMinute = String(minute).padStart(2, '0');
+
         return (
             <TouchableOpacity style={styles.flatlistcard}>
-            <Text style={styles.firsttext}>{key}: {value}</Text>
+            <Text style={styles.firsttext}>{key}: {formattedHour}:{formattedMinute} {suffix}</Text>
             </TouchableOpacity>
-        );
+         );
         };
 
-    return(
-        <Basescreen containerstyle={{backgroundColor : Colors.whiteaccent}} >
+      
 
+    return(
+        <Basescreen  containerstyle={{backgroundColor : Colors.secondary }}   >
+            <View style={{backgroundColor:Colors.primary, borderRadius:5 }}>
+              <Text style={{color:Colors.golden , paddingVertical: vs(20), textAlign:'center' ,fontSize:vs(20)}} > ----: Namaz Timing :---- </Text>
+            </View>
             <FlatList 
                 data={Object.entries(namaztime)} 
                 keyExtractor={([key], index) => key + index}

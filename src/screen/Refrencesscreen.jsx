@@ -163,12 +163,12 @@ const ReferencesScreen = () => {
   };
 
   
-  const getRenderItem = useCallback(({ item }) => {
+  const getRenderItem = useCallback(({ item ,index}) => {
     switch (ref) {
       case 'Surah':
         return <SurahItem item={item} onpress={()=>navigation.navigate('ReciteQuranBy', {ref : item?.number})} />;
       case 'Juz':
-        return <JuzItem item={item} onpress={()=>navigation.navigate('ReciteQuranByJuzz', {ref : item?.number})} />;
+        return <JuzItem item={item} index= {index} onpress={()=>navigation.navigate('ReciteQuranByJuzz', {ref : item?.number})} />;
       case 'Sajdas':
         return <SajdaItem item={item} />;
       default:
@@ -200,7 +200,7 @@ const ReferencesScreen = () => {
 
   return (
     <Basescreen 
-      scroable={false} 
+      scroable={true} 
       containerstyle={styles.container}
     >
       <Backbutton/>
@@ -237,10 +237,10 @@ const SurahItem = memo(({ item, onpress }) => (
     </View>
   ));
   
-  const JuzItem = memo(({ item,onpress }) => (
+  const JuzItem = memo(({ item,onpress ,index }) => (
     <TouchableOpacity style={styles.maincontainer} onPress={onpress} >
-      <Text style={styles.text}>Juz Number: {item?.number}</Text>
-      <Text style={styles.text}>{item?.description || 'No description available'}</Text>
+      <Text style={styles.text}>Juz Number: {index + 1 }</Text>
+      <Text style={styles.text}>Number of Surah :{item?.surah || 'No description available'}</Text>
     </TouchableOpacity>
   ));
   
