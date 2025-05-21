@@ -11,6 +11,8 @@ import { getUser } from "../utils/shared/redux/Userslice";
 import { FastField } from "formik";
 import Buton from "../component/Button/Buton";
 import { translatedata } from "../utils/constant/Staticdata";
+import ShareButton from "../component/Button/Sharebutton";
+import { generateAndHandlePDF_Surah } from "../utils/constant/downloadjuzzaspdf";
   
   const ReciteQuranBy = () => {
 
@@ -147,6 +149,8 @@ import { translatedata } from "../utils/constant/Staticdata";
         <View style={styles.container}>
           
           <Text style={styles.titleText}> Surah {ref ?ref: number}</Text>
+
+          <ShareButton onpress={()=>generateAndHandlePDF_Surah(ayahs, number,surahname)} ></ShareButton>
           {surahname?(
             <Text style={styles.titleText}> -{surahname}</Text>
           ):(null)}

@@ -124,6 +124,8 @@ import { getqurandetialdata } from "../utils/shared/redux/Userslice";
 import { useEffect, useState, useCallback, memo } from "react";
 import { mvs, scale, vs } from "../utils/theme/responsive";
 import Backbutton from "../component/Button/Backbutton";
+import ShareButton from "../component/Button/Sharebutton";
+import { downloadJuzzDetails, shareJuzz } from "../utils/constant/juzshare";
 
 
 

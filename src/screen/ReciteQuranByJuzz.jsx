@@ -8,6 +8,9 @@ import { Api_Services } from "../services/Api_Services";
 import { useRoute } from "@react-navigation/native";
 import Buton from "../component/Button/Buton";
 import { translatedata } from "../utils/constant/Staticdata";
+import ShareButton from "../component/Button/Sharebutton";
+import { downloadJuzzDetails, shareJuzz } from "../utils/constant/juzshare";
+import { downloadJuzzAsPDF, generateAndHandlePDF_Juzz } from "../utils/constant/downloadjuzzaspdf";
   
   const ReciteQuranByJuzz = () => {
 
@@ -83,6 +86,7 @@ import { translatedata } from "../utils/constant/Staticdata";
       
       >
         <Text style={styles.titleText}>بِسْمِ ٱللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</Text>
+        
         {!ref?(
           <View style={styles.searchconatiner}>
             <TextInput
@@ -135,7 +139,8 @@ import { translatedata } from "../utils/constant/Staticdata";
         <View style={styles.maincontainer}>
           
           <Text style={styles.titleText}> Juzz {ref ? ref: number}</Text>
-  
+          
+              <ShareButton onpress={()=>generateAndHandlePDF_Juzz(ayahs, number)}></ShareButton>
           {loading ? (
             <ActivityIndicator size="large" color={Colors.primary} />
           ) : (
