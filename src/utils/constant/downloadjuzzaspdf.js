@@ -86,6 +86,7 @@ export const generateAndHandlePDF_Juzz = async (juzz, number) => {
 
 
 export const generateAndHandlePDF_Surah = async (surah, number, name) => {
+    console.log('buttonpressed for surah pdf')
     try {
         //Create plain text from juzz array
         const allText = surah.map((ayah, index) => `${index + 1}. ${ayah.text}`).join('<br/>');

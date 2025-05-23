@@ -28,21 +28,21 @@ export const NetworkProvider =({children})=>{
 
     
     useEffect(() => {
-        if (!isconnected) {
-            showMessage({
-                message: "Network connection",
-                description: 'Failed',
-                type: 'danger',
-                style: Commonstyle.error,
-            });
-        } else {
-            showMessage({
-                message: "Network connection",
-                description: 'Restored',
-                type: 'success',
-                style: Commonstyle.sucsses,
-            });
-        }
+        // if (!isconnected) {
+        //     showMessage({
+        //         message: "Network connection",
+        //         description: 'Failed',
+        //         type: 'danger',
+        //         style: Commonstyle.error,
+        //     });
+        // } else {
+        //     showMessage({
+        //         message: "Network connection",
+        //         description: 'Restored',
+        //         type: 'success',
+        //         style: Commonstyle.sucsses,
+        //     });
+        // }
     }, [isconnected]);
 
     
@@ -53,6 +53,23 @@ export const NetworkProvider =({children})=>{
     return(
         <NetworkContext.Provider value={{isconnected ,theme, toggleTheme}} >
             {children}
+            {!isconnected ?(
+                showMessage({
+                message: "Network connection",
+                description: 'Failed',
+                type: 'danger',
+                style: Commonstyle.error,
+            })
+            ):(
+                showMessage({
+                message: "Network connection",
+                description: 'Restored',
+                type: 'success',
+                style: Commonstyle.sucsses,
+            })
+            )
+
+            }
         </NetworkContext.Provider>
     )
 

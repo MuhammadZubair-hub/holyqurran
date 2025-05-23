@@ -44,6 +44,7 @@ import { generateAndHandlePDF_Surah } from "../utils/constant/downloadjuzzaspdf"
           const ayahsArray = surahdata?.data?.data?.ayahs || [];
           setSurahname(surahdata?.data?.data?.name);
           setAyahs(ayahsArray);
+          setShowTranslations(false);
         } catch (error) {
           
           Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );
@@ -51,6 +52,7 @@ import { generateAndHandlePDF_Surah } from "../utils/constant/downloadjuzzaspdf"
         } finally {
           setLoading(false);
         }
+        
       };
 
       const getAllSurahWithTranslation = async ({editionname}) => {
@@ -80,12 +82,12 @@ import { generateAndHandlePDF_Surah } from "../utils/constant/downloadjuzzaspdf"
       const renderTranslateAyah = ({ item, index }) => (
       
         <Text style={[styles.text,{textAlign:'justify'}]}>
-        {index + 1}-  {item.text}
+        {index + 1}-  ${item.text} 
       </Text>
       
     );
 
-    
+  3
     return (
       <Basescreen
         scroable={true}
@@ -148,11 +150,12 @@ import { generateAndHandlePDF_Surah } from "../utils/constant/downloadjuzzaspdf"
   
         <View style={styles.container}>
           
-          <Text style={styles.titleText}> Surah {ref ?ref: number}</Text>
+          {/* <Text style={styles.titleText}> Surah {ref ? ref : number}</Text> */}
 
           <ShareButton onpress={()=>generateAndHandlePDF_Surah(ayahs, number,surahname)} ></ShareButton>
+
           {surahname?(
-            <Text style={styles.titleText}> -{surahname}</Text>
+            <Text style={styles.titleText}> -: {surahname} :-</Text>
           ):(null)}
   
           {loading ? (

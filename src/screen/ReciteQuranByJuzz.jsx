@@ -38,6 +38,7 @@ import { downloadJuzzAsPDF, generateAndHandlePDF_Juzz } from "../utils/constant/
         const juzdata = await Api_Services.getAlljuz({ juznumber: ref ? ref: number });
         const ayahsArray = juzdata?.data?.data?.ayahs || [];
         setAyahs(ayahsArray);
+        setShowTranslations(false);
       } catch (error) {
     
         Alert.alert("Error", error?.data || error?.message || "Something Went Wrong" );

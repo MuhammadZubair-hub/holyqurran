@@ -20,7 +20,7 @@ const Nointernet =()=>{
                 source={require('../assets/Lottiefiles/nointernet.json')}
                 style={{ width: '70%', height: vs(250) }}
                 autoPlay
-                loop={false}
+                loop={true}
                 />
 
                 <Text

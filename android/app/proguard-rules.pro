@@ -8,3 +8,10 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+# Preserve Fresco animated classes
+-keep class com.facebook.imagepipeline.** { *; }
+-keep class com.facebook.fresco.animation.** { *; }
+-keep class com.facebook.fresco.animation.factory.** { *; }
+-keep class com.facebook.imagepipeline.animated.factory.** { *; }
+-dontwarn com.facebook.imagepipeline.**
+-dontwarn com.facebook.fresco.animation.**
