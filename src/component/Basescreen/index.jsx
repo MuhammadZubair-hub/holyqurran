@@ -1,60 +1,10 @@
 import { View } from "react-native"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { mvs } from "../../utils/theme/responsive";
+import {  getAppColors } from "../../utils/theme/colors";
+import { useNetwork } from "../../services/Networkporvider";
 
-// const  Basescreen =({
-//     children,
-//     scroable = false,
-//     containerstyle,
-//     horizantel,
-//     padding=0,
-//     paddingBottom=0,
-//     paddingHorizontal=0,
-//     paddingTop=0
-
-//     })=>{
-
-//         const inset = useSafeAreaInsets();
-
-//        if(scroable){
-//         return(
-//             <KeyboardAwareScrollView
-//             showsHorizontalScrollIndicator={false}
-//             showsVerticalScrollIndicator={false}
-//             horizontal={horizantel}
-//             enableAutomaticScroll
-//             scrollEnabled
-//             nestedScrollEnabled={true}
-//             keyboardShouldPersistTaps="handled"
-//             style={{flex: 1,}}
-//             contentContainerStyle={[
-//                 {
-//                   flexGrow: 1,
-//                   padding: mvs(padding),
-//                   paddingBottom: mvs(paddingBottom) + inset.bottom,
-//                   paddingTop: mvs(paddingTop) + inset.top,
-//                   paddingHorizontal: mvs(paddingHorizontal),
-//                 },
-//                 containerstyle,
-//               ]}
-//             >
-//                 <View style={{flex:1}} >{children}</View>
-//             </KeyboardAwareScrollView>
-
-//         )
-
-//        }
-//        else{
-//         return(
-
-//             <View style={[ {flex:1},{paddingTop: inset.top, paddingBottom:inset.bottom} ,containerstyle ]} >
-//                 {children}
-//             </View>
-//         )
-//        } 
-    
-// }
 
 const Basescreen = ({
   children,
@@ -66,39 +16,53 @@ const Basescreen = ({
   paddingHorizontal = 0,
   paddingTop = 0
 }) => {
+  
+  const {theme} = useNetwork();
+  const Colors = getAppColors(theme);
   const inset = useSafeAreaInsets();
 
   const containerPadding = {
     padding: mvs(padding),
-    paddingBottom: mvs(paddingBottom) + inset.bottom,
-    paddingTop: mvs(paddingTop) + inset.top,
+    //paddingBottom: mvs(paddingBottom) + inset.bottom,
+    //paddingTop: mvs(paddingTop) + inset.top,
     paddingHorizontal: mvs(paddingHorizontal),
   };
 
   if (scroable) {
     return (
-      <KeyboardAwareScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        horizontal={horizontal}
-        enableAutomaticScroll
-        scrollEnabled
-        nestedScrollEnabled={true}
-        keyboardShouldPersistTaps="handled"
-        style={{ flex: 1 }}
-        contentContainerStyle={[
-          { flexGrow: 1, ...containerPadding },
-          containerstyle,
-        ]}
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: Colors.primary }} // or your theme color
+        edges={['top', 'bottom']}
       >
-        <View style={{ flex: 1 }}>{children}</View>
-      </KeyboardAwareScrollView>
+        <KeyboardAwareScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          horizontal={horizontal}
+          enableAutomaticScroll
+          scrollEnabled
+          nestedScrollEnabled={true}
+          keyboardShouldPersistTaps="handled"
+          style={{ flex: 1 }}
+          contentContainerStyle={[
+            { flexGrow: 1, ...containerPadding },
+            containerstyle,
+          ]}
+        >
+          <View style={{ flex: 1 }}>{children}</View>
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
     );
   } else {
     return (
-      <View style={[{ flex: 1, ...containerPadding }, containerstyle]}>
+      <SafeAreaView
+        style={[
+          { flex: 1, backgroundColor: Colors.primary, ...containerPadding },
+          containerstyle,
+        ]}
+        edges={['top','bottom']}
+      >
         {children}
-      </View>
+      </SafeAreaView>
     );
   }
 };

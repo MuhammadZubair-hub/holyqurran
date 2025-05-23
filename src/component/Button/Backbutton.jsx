@@ -1,11 +1,15 @@
 import { TouchableOpacity, View } from "react-native"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { mvs } from "../../utils/theme/responsive"
-import { Colors } from "../../utils/theme/colors"
+import { getAppColors } from "../../utils/theme/colors"
 import { useNavigation } from "@react-navigation/native"
+import { useNetwork } from "../../services/Networkporvider"
 
 const Backbutton = ()=>{
     const navigation = useNavigation();
+
+    const {theme} = useNetwork();
+    const Colors = getAppColors(theme);
     return(
         <TouchableOpacity style={{ 
             justifyContent: 'center',

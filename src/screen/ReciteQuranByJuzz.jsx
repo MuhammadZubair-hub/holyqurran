@@ -82,9 +82,7 @@ import { downloadJuzzAsPDF, generateAndHandlePDF_Juzz } from "../utils/constant/
       <Basescreen
         scroable={true}
         paddingHorizontal={mvs(10)}
-        containerstyle={{ backgroundColor: Colors.whiteaccent}}
-      
-      >
+        containerstyle={{ backgroundColor: Colors.whiteaccent}}>
         <Text style={styles.titleText}>بِسْمِ ٱللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</Text>
         
         {!ref?(

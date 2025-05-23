@@ -39,7 +39,7 @@ export const generateAndHandlePDF_Juzz = async (juzz, number) => {
         }
 
 
-        const pdfFileName = `Juzz_1_${Date.now()}`;
+        const pdfFileName = `Juzz_${number}`;
         const pdf = await RNHTMLtoPDF.convert({
             html: htmlContent,
             fileName: pdfFileName,
@@ -93,8 +93,8 @@ export const generateAndHandlePDF_Surah = async (surah, number, name) => {
 
         const htmlContent = `
        <div style="text-align: center;">
-    <img src="file:///android_asset/quranpic.png" alt="Header Image" style="width: 150px; height: auto; margin-bottom: 20px;" />
-  </div>
+            <img src="file:///android_asset/quranpic.png" alt="Header Image" style="width: 150px; height: auto; margin-bottom: 20px;" />
+        </div>
       <h1>Surah Download : ${number} - ${name}</h1>
       <div style="text-align : right;" >${allText}</div>
     `;
@@ -117,7 +117,7 @@ export const generateAndHandlePDF_Surah = async (surah, number, name) => {
         }
 
 
-        const pdfFileName = `Surah_${Date.now()}`;
+        const pdfFileName = `Surah_${number}`;
         const pdf = await RNHTMLtoPDF.convert({
             html: htmlContent,
             fileName: pdfFileName,

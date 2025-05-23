@@ -1,7 +1,8 @@
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import { Colors } from "../../utils/theme/colors"
+import { getAppColors } from "../../utils/theme/colors"
 import { scale, vs } from "../../utils/theme/responsive"
 import Ionicons from "react-native-vector-icons/Ionicons"
+import { useNetwork } from "../../services/Networkporvider"
 
 const Buton =({
 
@@ -13,9 +14,13 @@ const Buton =({
     isLoading,
     width,
     })=>{
+
+        const {theme} = useNetwork();
+        const Colors = getAppColors(theme);
+
      return(
         <TouchableOpacity 
-            style={[styles.button,{width:width}]}
+            style={[styles.button,{width:width,backgroundColor:Colors.primary,}]}
             onPress={onpress}>
             {isLoading?(
                 <ActivityIndicator size={"small"} color={Colors.golden} style={{padding:padding, paddingVertical:paddingvertical}}/>
@@ -23,12 +28,12 @@ const Buton =({
                 buttonicon?(
             <View style={styles.iconconatiner}>
                 <Ionicons name = {buttonicon} size ={vs(20)} color={Colors.golden}  />
-                <Text style={[styles.buttontext,{padding:padding, paddingVertical:paddingvertical }]}>
+                <Text style={[styles.buttontext,{padding:padding, paddingVertical:paddingvertical ,color:Colors.golden, }]}>
                 {buttontitle}
                 </Text>
             </View>
             ):(
-                <Text style={[styles.buttontext,{padding:padding, paddingVertical:paddingvertical }]}>
+                <Text style={[styles.buttontext,{padding:padding, paddingVertical:paddingvertical,color:Colors.golden, }]}>
                 {buttontitle}
                 </Text>
             )
@@ -41,7 +46,7 @@ export default Buton
 
 const styles = StyleSheet.create({
     button:{
-        backgroundColor:Colors.primary,
+        
         width:'100%',
         borderRadius:10,
          justifyContent:'center',
@@ -50,7 +55,7 @@ const styles = StyleSheet.create({
     },
     buttontext:{
         textAlign:'center',
-        color:Colors.golden,
+        
         fontSize:scale(20),
     },
     iconconatiner:{

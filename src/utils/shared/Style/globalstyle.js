@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../theme/colors";
+import { vs } from "../../theme/responsive";
 
 export const Commonstyle = StyleSheet.create({
     maincontainer:{
@@ -37,10 +38,10 @@ export const Commonstyle = StyleSheet.create({
           },
           error: {
             backgroundColor:'red',
-            height: 60,
+            //height: 60,
             width: '90%',
             alignSelf: 'center',
-            marginTop: 30,
+            marginTop: vs(40),
             borderRadius: 10,
             paddingHorizontal: 15,
             justifyContent: 'center',
@@ -52,10 +53,10 @@ export const Commonstyle = StyleSheet.create({
           },
           sucsses : {
             backgroundColor:'#32CD32',
-            height: 60,
+            //height: 60,
             width: '90%',
             alignSelf: 'center',
-            marginTop: 30,
+            marginTop: vs(40),
             borderRadius: 10,
             paddingHorizontal: 15,
             justifyContent: 'center',

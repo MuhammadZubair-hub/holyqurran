@@ -5,12 +5,17 @@ import { getqurandetialdata, setqurandetialdata } from "../utils/shared/redux/Us
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useEffect, useState } from "react";
 import { mvs, vs } from "../utils/theme/responsive";
-import { Colors } from "../utils/theme/colors";
+import { getAppColors } from "../utils/theme/colors";
 import { useNavigation } from "@react-navigation/native";
 import Backbutton from "../component/Button/Backbutton";
+import { useNetwork } from "../services/Networkporvider";
 //import { detialsData } from "../utils/constant/Staticdata";
 
 const QuranDetial = () => {
+
+  const {theme} = useNetwork();
+  const Colors = getAppColors(theme);
+
   const dispatch = useDispatch();
   const getredux = useSelector(getqurandetialdata);
   const [loading,setLoading] = useState(true);
@@ -65,10 +70,12 @@ const QuranDetial = () => {
 
   const renderFunction =({item})=>{
     return (
-        <TouchableOpacity style={styles.flatlistcard} 
+        <TouchableOpacity style={[styles.flatlistcard,{backgroundColor:Colors.whiteaccent,
+        borderRightColor:Colors.golden,
+        borderBottomColor:Colors.golden,}]} 
          onPress={()=> navigation.navigate('Refrencesscr',{ref : item.name})}  >
-            <Text style={[styles.firsttext]}> {item.name}</Text>
-            <Text style={styles.secondtext}> {item?.data?.count}</Text>
+            <Text style={[styles.firsttext,{color:Colors.primary,}]}> {item.name}</Text>
+            <Text style={[styles.secondtext,{color:Colors.primary,}]}> {item?.data?.count}</Text>
         </TouchableOpacity>
     )
   }
@@ -95,8 +102,8 @@ const QuranDetial = () => {
                 resizeMode="contain"
                 />
             
-            <View style={styles.container}>
-              <Text style={styles.titletext}> Holy Quran Details </Text>
+            <View style={[styles.container,{backgroundColor: Colors.primary, borderRightColor:Colors.golden,borderBottomColor:Colors.golden,}]}>
+              <Text style={[styles.titletext,{color: Colors.golden}]}> Holy Quran Details </Text>
               <View style={{height:vs(2),backgroundColor:Colors.golden , width:'80%' ,alignSelf:'center', marginBottom:10}}></View>
 
               <FlatList
@@ -118,13 +125,10 @@ const styles =StyleSheet.create({
     container:{
         alignContent:'center',
         justifyContent: 'space-evenly',
-        backgroundColor: Colors.primary,
         width: '95%',
         borderRadius: 30,
         alignSelf: 'center', 
-        paddingVertical: mvs(20), 
-        borderRightColor:Colors.golden,
-        borderBottomColor:Colors.golden,
+        paddingVertical: mvs(20),
         borderBottomWidth:5,
         borderRightWidth:5
     },
@@ -133,20 +137,16 @@ const styles =StyleSheet.create({
         flexWrap:'wrap',
         justifyContent:'space-between',
         alignItems:'center',
-        backgroundColor:Colors.whiteaccent,
         borderRadius:mvs(10),
         margin:10,
-        borderRightColor:Colors.golden,
-        borderBottomColor:Colors.golden,
         borderBottomWidth:5,
         borderRightWidth:5
     },
     titletext:{
-        fontSize: vs(30), fontWeight: 'bold', marginBottom: vs(10),textAlign:'center', color: Colors.golden 
+        fontSize: vs(30), fontWeight: 'bold', marginBottom: vs(10),textAlign:'center',  
     },
 
     firsttext :{
-        color:Colors.primary,
         paddingVertical:vs(10),
         fontSize:vs(25),
         fontWeight:'500',
@@ -155,7 +155,7 @@ const styles =StyleSheet.create({
     },
     secondtext:{
         
-        color:Colors.primary,
+        
         fontSize:vs(20),
         fontWeight:'800',
         textAlign:'center',

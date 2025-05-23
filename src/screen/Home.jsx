@@ -2,7 +2,7 @@ import { Alert, Image, PermissionsAndroid, Platform, StyleSheet, Text, Touchable
 
 import Basescreen from "../component/Basescreen"
 import MyHeader from "../component/Header"
-import { Colors } from "../utils/theme/colors"
+import {  getAppColors } from "../utils/theme/colors"
 import { useEffect, useState } from "react"
 import { mvs, vs, width } from "../utils/theme/responsive"
 import Homescreencard from "../component/card/Homescreencard"
@@ -12,11 +12,14 @@ import auth from '@react-native-firebase/auth'
 import Geolocation from "react-native-geolocation-service"
 import GetUserLocation, { requestLocationPermission } from "../component/GetUserLoaction"
 import { Api_Services } from "../services/Api_Services"
+import { useNetwork } from "../services/Networkporvider"
 
 
 
 const Home = ()=>{
     
+  const {theme} = useNetwork();
+  const Colors = getAppColors(theme);
     
     useEffect(()=>{
       requestLocationPermission();
@@ -72,10 +75,10 @@ const Home = ()=>{
 
     return(
         
-        <Basescreen scroable={false} containerstyle={{backgroundColor:Colors.whiteaccent}}>
+        <Basescreen scroable={false}>
           <MyHeader username={auth().currentUser?.displayName} />
 
-          <View style={styles.mainRow}>
+          <View style={[styles.mainRow,{backgroundColor:Colors.whiteaccent}]}>
             
             <Image 
               blurRadius={0}
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         position: 'relative', 
+        
       },
       sideImage: {
         position: 'absolute',
