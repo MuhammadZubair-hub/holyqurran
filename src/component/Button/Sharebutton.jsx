@@ -1,9 +1,14 @@
 import { TouchableOpacity } from "react-native"
 import Entypo from "react-native-vector-icons/Entypo"
-import { Colors } from "../../utils/theme/colors"
+import {  getAppColors } from "../../utils/theme/colors"
 import { mvs } from "../../utils/theme/responsive"
+import { useNetwork } from "../../services/Networkporvider"
 
 const ShareButton =({onpress})=>{
+
+    const {theme} = useNetwork();
+    const Colors = getAppColors(theme);
+
     return(
         <TouchableOpacity style={{ 
             justifyContent: 'center',
